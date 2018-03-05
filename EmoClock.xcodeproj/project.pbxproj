@@ -7,13 +7,14 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		233C534B204C1F8B00D0383C /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233C534A204C1F8B00D0383C /* Setting.swift */; };
 		23F73F4C204AE566005223CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F73F4B204AE566005223CD /* AppDelegate.swift */; };
-		23F73F4E204AE566005223CD /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F73F4D204AE566005223CD /* ViewController.swift */; };
 		23F73F51204AE566005223CD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23F73F4F204AE566005223CD /* Main.storyboard */; };
 		23F73F53204AE566005223CD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23F73F52204AE566005223CD /* Assets.xcassets */; };
 		23F73F56204AE566005223CD /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23F73F54204AE566005223CD /* LaunchScreen.storyboard */; };
 		23F73F61204AE566005223CD /* EmoClockTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F73F60204AE566005223CD /* EmoClockTests.swift */; };
 		23F73F6C204AE566005223CD /* EmoClockUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F73F6B204AE566005223CD /* EmoClockUITests.swift */; };
+		23F73F9A204AFC95005223CD /* MainPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F73F99204AFC95005223CD /* MainPage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -34,9 +35,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		233C534A204C1F8B00D0383C /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
 		23F73F48204AE566005223CD /* EmoClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EmoClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23F73F4B204AE566005223CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		23F73F4D204AE566005223CD /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		23F73F50204AE566005223CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		23F73F52204AE566005223CD /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		23F73F55204AE566005223CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -47,6 +48,7 @@
 		23F73F67204AE566005223CD /* EmoClockUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EmoClockUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		23F73F6B204AE566005223CD /* EmoClockUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmoClockUITests.swift; sourceTree = "<group>"; };
 		23F73F6D204AE566005223CD /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		23F73F99204AFC95005223CD /* MainPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainPage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -98,11 +100,12 @@
 			isa = PBXGroup;
 			children = (
 				23F73F4B204AE566005223CD /* AppDelegate.swift */,
-				23F73F4D204AE566005223CD /* ViewController.swift */,
 				23F73F4F204AE566005223CD /* Main.storyboard */,
 				23F73F52204AE566005223CD /* Assets.xcassets */,
 				23F73F54204AE566005223CD /* LaunchScreen.storyboard */,
 				23F73F57204AE566005223CD /* Info.plist */,
+				23F73F99204AFC95005223CD /* MainPage.swift */,
+				233C534A204C1F8B00D0383C /* Setting.swift */,
 			);
 			path = EmoClock;
 			sourceTree = "<group>";
@@ -259,8 +262,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				23F73F4E204AE566005223CD /* ViewController.swift in Sources */,
 				23F73F4C204AE566005223CD /* AppDelegate.swift in Sources */,
+				23F73F9A204AFC95005223CD /* MainPage.swift in Sources */,
+				233C534B204C1F8B00D0383C /* Setting.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -429,6 +433,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = G6B6P5TXY2;
 				INFOPLIST_FILE = EmoClock/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Erene.EmoClock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -444,6 +449,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = G6B6P5TXY2;
 				INFOPLIST_FILE = EmoClock/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Erene.EmoClock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
