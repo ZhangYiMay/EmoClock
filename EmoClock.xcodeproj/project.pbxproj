@@ -7,7 +7,15 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2323E3AC2092130B00906DD4 /* StoreFileManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2323E3AB2092130B00906DD4 /* StoreFileManager.swift */; };
+		2335A305204CEAB30057BDCB /* AddClock.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2335A304204CEAB30057BDCB /* AddClock.swift */; };
+		2335A307204D28CF0057BDCB /* Statistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2335A306204D28CF0057BDCB /* Statistics.swift */; };
+		2335A309204D41300057BDCB /* Ringing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2335A308204D41300057BDCB /* Ringing.swift */; };
+		2335A30B204D41550057BDCB /* Feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2335A30A204D41550057BDCB /* Feedback.swift */; };
 		233C534B204C1F8B00D0383C /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233C534A204C1F8B00D0383C /* Setting.swift */; };
+		236B90372095FE2E00396BE1 /* 419.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 236B90362095FE2E00396BE1 /* 419.m4a */; };
+		23D63941208DD93000385A17 /* FontSizeAdaptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D63940208DD93000385A17 /* FontSizeAdaptor.swift */; };
+		23F5D3D320503C2E006707AC /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F5D3D220503C2E006707AC /* Alarm.swift */; };
 		23F73F4C204AE566005223CD /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F73F4B204AE566005223CD /* AppDelegate.swift */; };
 		23F73F51204AE566005223CD /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 23F73F4F204AE566005223CD /* Main.storyboard */; };
 		23F73F53204AE566005223CD /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 23F73F52204AE566005223CD /* Assets.xcassets */; };
@@ -34,8 +42,31 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		23F44F682055036E00AE993B /* Embed App Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed App Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		2323E3AB2092130B00906DD4 /* StoreFileManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreFileManager.swift; sourceTree = "<group>"; };
+		2335A304204CEAB30057BDCB /* AddClock.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddClock.swift; sourceTree = "<group>"; };
+		2335A306204D28CF0057BDCB /* Statistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Statistics.swift; sourceTree = "<group>"; };
+		2335A308204D41300057BDCB /* Ringing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ringing.swift; sourceTree = "<group>"; };
+		2335A30A204D41550057BDCB /* Feedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feedback.swift; sourceTree = "<group>"; };
 		233C534A204C1F8B00D0383C /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
+		236B90362095FE2E00396BE1 /* 419.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 419.m4a; sourceTree = "<group>"; };
+		23D63940208DD93000385A17 /* FontSizeAdaptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSizeAdaptor.swift; sourceTree = "<group>"; };
+		23F44F572055036E00AE993B /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
+		23F44F592055036E00AE993B /* UserNotificationsUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotificationsUI.framework; path = System/Library/Frameworks/UserNotificationsUI.framework; sourceTree = SDKROOT; };
+		23F5D3D220503C2E006707AC /* Alarm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Alarm.swift; sourceTree = "<group>"; };
 		23F73F48204AE566005223CD /* EmoClock.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EmoClock.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		23F73F4B204AE566005223CD /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		23F73F50204AE566005223CD /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -76,12 +107,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		23F44F562055036E00AE993B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				23F44F572055036E00AE993B /* UserNotifications.framework */,
+				23F44F592055036E00AE993B /* UserNotificationsUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		23F73F3F204AE566005223CD = {
 			isa = PBXGroup;
 			children = (
 				23F73F4A204AE566005223CD /* EmoClock */,
 				23F73F5F204AE566005223CD /* EmoClockTests */,
 				23F73F6A204AE566005223CD /* EmoClockUITests */,
+				23F44F562055036E00AE993B /* Frameworks */,
 				23F73F49204AE566005223CD /* Products */,
 			);
 			sourceTree = "<group>";
@@ -99,13 +140,21 @@
 		23F73F4A204AE566005223CD /* EmoClock */ = {
 			isa = PBXGroup;
 			children = (
+				236B90362095FE2E00396BE1 /* 419.m4a */,
 				23F73F4B204AE566005223CD /* AppDelegate.swift */,
+				2335A308204D41300057BDCB /* Ringing.swift */,
+				23F5D3D220503C2E006707AC /* Alarm.swift */,
+				2335A30A204D41550057BDCB /* Feedback.swift */,
+				2335A306204D28CF0057BDCB /* Statistics.swift */,
+				2335A304204CEAB30057BDCB /* AddClock.swift */,
 				23F73F4F204AE566005223CD /* Main.storyboard */,
 				23F73F52204AE566005223CD /* Assets.xcassets */,
 				23F73F54204AE566005223CD /* LaunchScreen.storyboard */,
 				23F73F57204AE566005223CD /* Info.plist */,
 				23F73F99204AFC95005223CD /* MainPage.swift */,
 				233C534A204C1F8B00D0383C /* Setting.swift */,
+				23D63940208DD93000385A17 /* FontSizeAdaptor.swift */,
+				2323E3AB2092130B00906DD4 /* StoreFileManager.swift */,
 			);
 			path = EmoClock;
 			sourceTree = "<group>";
@@ -138,6 +187,7 @@
 				23F73F44204AE566005223CD /* Sources */,
 				23F73F45204AE566005223CD /* Frameworks */,
 				23F73F46204AE566005223CD /* Resources */,
+				23F44F682055036E00AE993B /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
@@ -237,6 +287,7 @@
 			files = (
 				23F73F56204AE566005223CD /* LaunchScreen.storyboard in Resources */,
 				23F73F53204AE566005223CD /* Assets.xcassets in Resources */,
+				236B90372095FE2E00396BE1 /* 419.m4a in Resources */,
 				23F73F51204AE566005223CD /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -262,9 +313,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2335A309204D41300057BDCB /* Ringing.swift in Sources */,
 				23F73F4C204AE566005223CD /* AppDelegate.swift in Sources */,
 				23F73F9A204AFC95005223CD /* MainPage.swift in Sources */,
+				23F5D3D320503C2E006707AC /* Alarm.swift in Sources */,
+				2335A305204CEAB30057BDCB /* AddClock.swift in Sources */,
+				2323E3AC2092130B00906DD4 /* StoreFileManager.swift in Sources */,
+				2335A307204D28CF0057BDCB /* Statistics.swift in Sources */,
+				2335A30B204D41550057BDCB /* Feedback.swift in Sources */,
 				233C534B204C1F8B00D0383C /* Setting.swift in Sources */,
+				23D63941208DD93000385A17 /* FontSizeAdaptor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -348,7 +406,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zhang Kejun (KDH9RVF5NA)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -367,7 +425,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -405,7 +463,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Developer: Zhang Kejun (KDH9RVF5NA)";
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
@@ -418,7 +476,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
@@ -430,13 +488,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = G6B6P5TXY2;
+				DEVELOPMENT_TEAM = QF63X87GTF;
 				INFOPLIST_FILE = EmoClock/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Erene.EmoClock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -446,13 +506,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = G6B6P5TXY2;
+				DEVELOPMENT_TEAM = QF63X87GTF;
 				INFOPLIST_FILE = EmoClock/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = Erene.EmoClock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

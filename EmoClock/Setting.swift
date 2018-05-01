@@ -19,17 +19,25 @@ class Setting: UIViewController, UITableViewDelegate, UITableViewDataSource {
     let backColor = UIColor.init(red: 0.0, green: 33/255, blue: 49/255, alpha: 1.0)
     /* content of tv */
     let item = ["起床心情自判", "音量设置", "常见问题"]
+    /* iphone6 frame width and height*/
+    let IPHONE6_WIDTH: CGFloat = 375.0
+    let IPHONE6_HEIGHT: CGFloat = 667.0
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-        
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
         /* get the size of the frame */
         self.frameHeight = self.view.frame.height
         self.frameWidth = self.view.frame.width
-        self.ratioWidth = self.frameWidth / 375.0
-        self.ratioHeight = self.frameHeight / 667.0
+        self.ratioWidth = self.frameWidth / IPHONE6_WIDTH
+        self.ratioHeight = self.frameHeight / IPHONE6_HEIGHT
+        if self.ratioWidth < self.ratioHeight {
+            self.ratioHeight = self.ratioWidth
+        } else {
+            self.ratioWidth = self.ratioHeight
+        }
         /* set the nav bar*/
         setNavBarStyle()
         /* set the tv */
@@ -48,7 +56,7 @@ class Setting: UIViewController, UITableViewDelegate, UITableViewDataSource {
         let label = UILabel.init(frame: CGRect.init(x: 161.5*self.ratioWidth, y: 34.5*self.ratioHeight, width: 52*self.ratioWidth, height: 15.5*self.ratioHeight))
         label.textColor = UIColor.white
         label.textAlignment = NSTextAlignment.center
-        label.font = UIFont.systemFont(ofSize: round(16*self.ratioHeight*self.ratioWidth))
+        label.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 15))
         label.text = "Setting"
         barView.addSubview(label)
         
@@ -95,7 +103,7 @@ class Setting: UIViewController, UITableViewDelegate, UITableViewDataSource {
         cell.textLabel?.text = self.item[indexPath.row]
         cell.textLabel?.textColor = UIColor.white
         cell.backgroundColor = self.backColor
-        cell.textLabel?.font = UIFont.systemFont(ofSize: round(18 * self.ratioHeight * ratioWidth))
+        cell.textLabel?.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 15))
         return cell
     }
 }
