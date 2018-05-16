@@ -19,31 +19,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
+        print("didFinishLaunchingWithOptions")
+        self.center.delegate = self
         // 确定初始页面
         let initialViewIdentifier = "MainPage"
         let vc = sb.instantiateViewController(withIdentifier: initialViewIdentifier)
         let navigationController = UINavigationController(rootViewController: vc)
         self.window?.rootViewController=navigationController
-        initialViewController()
-        // 注册Notification
-        center.requestAuthorization(options: [UNAuthorizationOptions.sound, .alert], completionHandler: {(aBool, aError) in
-            if aError == nil {
-                print("no errors in request notification authorizations")
-            }else {
-                print("errors in request notification authorizations: \(aError.debugDescription)")
-            }
-        })
-        center.getNotificationSettings(completionHandler: {(notification) in
-            if notification.authorizationStatus == UNAuthorizationStatus.authorized {
-                print("已同意通知")
-            } else if notification.authorizationStatus == UNAuthorizationStatus.notDetermined {
-                print("不确定")
-            } else if notification.authorizationStatus == UNAuthorizationStatus.denied {
-                print("已拒绝通知")
-            }
-        })
-        center.delegate = self
-        
         //判断是否是第一次启动app
         let everLauched = UserDefaults.standard.bool(forKey: "everLauched")
         if everLauched == false {
@@ -52,35 +34,67 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }else {
             UserDefaults.standard.set(false, forKey: "firstLauched")
         }
-        
+        //引导页
+        let first = UserDefaults.standard.bool(forKey: "firstLauched")
+        if true {
+            print("first luanched!!!")
+            let guide = sb.instantiateViewController(withIdentifier: "GuideView")
+            self.window?.rootViewController = UINavigationController.init(rootViewController: guide)
+        }
+        initialViewController()
         return true
     }
     
     func initialViewController() {
+        print("initialViewController")
         let path = StoreFileManager.getStoragePath(suffix: "/EmoClock/AlarmInfo/")
         let filePath = path + "info.txt"
-        let content = NSArray.init(contentsOf: URL.init(string: "file://"+filePath)!)
+        //let content = NSArray.init(contentsOf: URL.init(string: "file://"+filePath)!)
+        let content = StoreFileManager.readFileAtPath(path: filePath)
         print(filePath)
-        if content != nil { //having a clock
+        
+        if !content.isEmpty { //having a clock
+            
             //let vc = sb.instantiateViewController(withIdentifier: "AddClock")
-            let alarmInfo = content![0] as! Dictionary<String, Any>
-            let ad = AddClock()
-            ad.time_range = alarmInfo["alarm_range"] as! String
-            ad.clock_hour = alarmInfo["alarmHour"] as! Int
-            ad.clock_minute = alarmInfo["alarmMinute"] as! Int
-            ad.clock_month = alarmInfo["alarmMonth"] as! Int
-            ad.clock_day = alarmInfo["alarmDay"] as! Int
-            ad.weekday = alarmInfo["alarmWeek"] as! Int
-            ad.remainTime = alarmInfo["time_remain"] as! Double
-            ad.init_flag = true
-            let navigationController = UINavigationController(rootViewController: ad)
-            self.window?.rootViewController=navigationController
+            let alarmInfo = content[0] as! Dictionary<String, Any>
+            let clockMonth = alarmInfo["alarmMonth"] as! Int
+            let clockDay = alarmInfo["alarmDay"] as! Int
+            let clockHour = alarmInfo["alarmHour"] as! Int
+            let clockMin = alarmInfo["alarmMinute"] as! Int
+            let clockYear = alarmInfo["alarmYear"] as! Int
+            let clock_range = alarmInfo["alarm_range"] as! String
+            
+            let dateform = DateFormatter.init()
+            dateform.dateFormat = "yyyy年MM月dd日 HH:mm"// HH:mm"
+            let dateString = "\(clockYear)年\(clockMonth)月\(clockDay)日 \(clock_range == "AM" ? clockHour : (clockHour + 12)):\(clockMin)"
+            //let dateStringSet = dateNowString + " \(self.clock_hour + (self.time_range == "AM" ? 0 : 12)):\(self.clock_minute)"
+            var dateSet = dateform.date(from: dateString)
+            let timeSet = dateSet?.timeIntervalSince1970
+            let now = NSDate().timeIntervalSince1970
+            if timeSet! <= now { //已经响过闹铃了
+                //center.removeAllDeliveredNotifications()
+                //center.removeAllPendingNotificationRequests()
+                let ring = Ringing()
+                let navigationController = UINavigationController(rootViewController: ring)
+                self.window?.rootViewController=navigationController
+            } else {
+                let ad = AddClock()
+                ad.time_range = alarmInfo["alarm_range"] as! String
+                ad.clock_hour = clockHour
+                ad.clock_minute = clockMin
+                ad.clock_month = clockMonth
+                ad.clock_day = clockDay
+                ad.weekday = alarmInfo["alarmWeek"] as! Int
+                ad.remainTime = alarmInfo["time_remain"] as! Double
+                ad.init_flag = true
+                let navigationController = UINavigationController(rootViewController: ad)
+                self.window?.rootViewController=navigationController
+            }
         }
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
         
-        let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "Ringing")
         self.window?.rootViewController = UINavigationController.init(rootViewController: vc)
         print("didReceive response")
@@ -90,6 +104,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
      func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         print("willPresent notification")
+        let vc = sb.instantiateViewController(withIdentifier: "Ringing")
+        self.window?.rootViewController = UINavigationController.init(rootViewController: vc)
     }
 
     func applicationWillResignActive(_ application: UIApplication) {
@@ -107,6 +123,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func applicationWillEnterForeground(_ application: UIApplication) {
         // Called as part of the transition from the background to the active state; here you can undo many of the changes made on entering the background.
         print("applicationWillEnterForeground")
+        
         initialViewController()
     }
 
@@ -118,7 +135,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     
     func application(_ application: UIApplication, willFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey : Any]? = nil) -> Bool {
         
-        initialViewController()
+        //initialViewController()
         print("willFinishLaunchingWithOptions")
         return true
     }

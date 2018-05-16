@@ -28,7 +28,7 @@ class AddClock: UIViewController {
     var clockDate: Date?
     var remainTime: Double = 0.0
     var weekday: Int = 0
-    let week = ["星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六"]
+    let week = ["nil", "星期日", "星期一", "星期二", "星期三", "星期四", "星期五", "星期六" ]
     /* iphone6 frame width and height*/
     let IPHONE6_WIDTH: CGFloat = 375.0
     let IPHONE6_HEIGHT: CGFloat = 667.0
@@ -72,23 +72,23 @@ class AddClock: UIViewController {
         let btnLeft = UIButton.init(frame: CGRect.init(x: 15 * self.ratioWidth, y: 32 * self.ratioHeight, width: 23.5 * self.ratioWidth, height: 20 * self.ratioHeight))
         btnLeft.setImage(itemImageLeft, for: UIControlState.normal)
         barView.addSubview(btnLeft)
-        btnLeft.addTarget(self, action: #selector(testFeed), for: UIControlEvents.touchUpInside)
+        btnLeft.addTarget(self, action: #selector(tapLeft), for: UIControlEvents.touchUpInside)
         
         let itemImageRight = UIImage.init(named: "set")
         let btnRight = UIButton.init(frame: CGRect.init(x: 335 * self.ratioWidth, y: 28 * self.ratioHeight, width: 28 * self.ratioWidth, height: 28 * self.ratioHeight))
         btnRight.setImage(itemImageRight, for: UIControlState.normal)
         barView.addSubview(btnRight)
-        btnRight.addTarget(self, action: #selector(testRing), for: UIControlEvents.touchUpInside)
+        btnRight.addTarget(self, action: #selector(tapRight), for: UIControlEvents.touchUpInside)
         
         self.view.addSubview(barView)
     }
-    @objc func testRing() {
+    @objc func tapLeft() {
         
-        let vc = sb.instantiateViewController(withIdentifier: "Ringing") as UIViewController
+        let vc = sb.instantiateViewController(withIdentifier: "Statistics") as UIViewController
         self.navigationController?.pushViewController(vc, animated: true)
     }
-    @objc func testFeed() {
-        let vc = sb.instantiateViewController(withIdentifier: "Feedback") as UIViewController
+    @objc func tapRight() {
+        let vc = sb.instantiateViewController(withIdentifier: "setting") as UIViewController
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -147,13 +147,12 @@ class AddClock: UIViewController {
         remainView.addSubview(btnCancel)
         // 添加长按手势
         let longPress = UILongPressGestureRecognizer.init(target: self, action: #selector(pressCancel))
-        print("**\(longPress.numberOfTouches)")
         btnCancel.addGestureRecognizer(longPress)
         // label cancel
         //let label_cancel = UILabel.init(frame: CGRect.init(x: 119.5 * self.ratioWidth, y: 526 * self.ratioHeight, width: 137 * self.ratioWidth, height: 25 * self.ratioHeight))
         let label_cancel = UILabel.init(frame: CGRect.init(x: 0, y: 526 * self.ratioHeight, width: self.frameWidth, height: 25 * self.ratioHeight))
         label_cancel.textAlignment = .center
-        label_cancel.text = "取消闹钟 Cancel"
+        label_cancel.text = "长按取消 Cancel"
         label_cancel.textColor = UIColor.white
         label_cancel.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 18))
         remainView.addSubview(label_cancel)

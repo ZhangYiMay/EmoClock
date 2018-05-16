@@ -15,7 +15,7 @@ class Alarm: NSObject, NSCoding {
     var selectedDay: Int? = 0
     var alarmOn: Bool?
     
-    let musicName = "419.m4a"//"shape-of-you.m4a"
+    var musicName = "7.m4a"//K组初始化
     let lastTime = 300 //seconds
     let lastInterval = 30 //seconds
     
@@ -49,8 +49,8 @@ extension Alarm {
         print("开始创建闹钟通知")
         // 创建通知内容
         let content = UNMutableNotificationContent.init()
-        content.title = "clock"
-        content.body = "alarm"
+        content.title = "EmoClock"
+        content.body = "请右滑关闭闹钟"
         content.sound = UNNotificationSound.init(named: musicName)
         content.categoryIdentifier = "myNotificationCategory"
         // 创建触发机制
@@ -79,7 +79,7 @@ extension Alarm {
             let identifier_add = "alarm" + String(i)
             let content_add = UNMutableNotificationContent.init()
             content_add.title = "clock"
-            content_add.body = "alarm"
+            content_add.body = "请右滑关闭闹钟"
             content_add.sound = UNNotificationSound.init(named: musicName)
             content_add.categoryIdentifier = "myNotificationCategory"
             

@@ -30,8 +30,8 @@ class Feedback: UIViewController {
     var alarm_music = ""
     let weekCh = ["一", "二", "三", "四", "五", "六", "日"]
     /* points */
-    var point_happy: Float = 0.0
-    var point_sober: Float = 0.0
+    var point_happy: Float = 1.0
+    var point_sober: Float = 1.0
     /* face imviews */
     var ivh_small: [UIImageView] = []
     var ivh_big: [UIImageView] = []
@@ -100,7 +100,7 @@ class Feedback: UIViewController {
         let slider1 = UISlider.init(frame: CGRect.init(x: 77*self.ratioWidth, y: 413.5*self.ratioHeight, width: 280*self.ratioWidth, height: 10))
         slider1.minimumValue = 1
         slider1.maximumValue = 9
-        slider1.value = 0
+        slider1.value = 1
         slider1.isContinuous = true
         slider1.minimumTrackTintColor = UIColor.init(red: 50/255, green: 136/255, blue: 1, alpha: 1)
         slider1.maximumTrackTintColor = UIColor.init(red: 38/255, green: 53/255, blue: 69/255, alpha: 1)
@@ -116,7 +116,7 @@ class Feedback: UIViewController {
         let slider2 = UISlider.init(frame: CGRect.init(x: 77*self.ratioWidth, y: 498.5*self.ratioHeight, width: 280*self.ratioWidth, height: 10))
         slider2.minimumValue = 1
         slider2.maximumValue = 9
-        slider2.value = 0
+        slider2.value = 1
         slider2.isContinuous = true
         slider2.minimumTrackTintColor = UIColor.init(red: 50/255, green: 136/255, blue: 1, alpha: 1)
         slider2.maximumTrackTintColor = UIColor.init(red: 38/255, green: 53/255, blue: 69/255, alpha: 1)
@@ -227,6 +227,7 @@ class Feedback: UIViewController {
     
     @objc func slider1_event(sender: UISlider) {
         let v = sender.value
+        //print("v:\(v)")
         self.point_happy = v
         if v <= 2.2 {
             self.ivh_small[0].isHidden = true

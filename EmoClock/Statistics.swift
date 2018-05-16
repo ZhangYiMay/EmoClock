@@ -43,16 +43,28 @@ class Statistics: UIViewController {
         self.view.backgroundColor = UIColor.gray
         
         setNavBarStyle()
+        readAndShowAverageSleepingTime()
         readAndShowHappyPoint()
         readAndShowTotalDays()
         setStatiticView()
         
     }
     
+    func readAndShowAverageSleepingTime() {
+        let filePath = StoreFileManager.getStoragePath(suffix: "/EmoClock/SleepTime/") + "average.txt"
+        let content = StoreFileManager.readFileAtPath(path: filePath) as! Array<Dictionary<String, Any>>
+        if !(content.isEmpty) {
+            let info = content[0]
+            let totalTime = info["total"] as! Double
+            let count = info["count"] as! Double
+            self.averageSleepingTime = Float(totalTime / count)
+        }
+    }
+    
     func readAndShowTotalDays() {
         let filePath = StoreFileManager.getStoragePath(suffix: "/EmoClock/FirstUse/") + "date.txt"
         let content = StoreFileManager.readFileAtPath(path: filePath) as! Array<Double>
-        if content != nil {
+        if (!content.isEmpty) {
             let beginTime = content[0]
             let now = NSDate()
             let nowTime = now.timeIntervalSince1970
@@ -62,11 +74,14 @@ class Statistics: UIViewController {
     
     func readAndShowHappyPoint() {
         let filePath = StoreFileManager.getStoragePath(suffix: "/EmoClock/Points/") + "happy.txt"
-        let content = StoreFileManager.readFileAtPath(path: filePath) as! Array<Float>
-        if content != nil {
+        var content = StoreFileManager.readFileAtPath(path: filePath) as! Array<Float>
+        if (!content.isEmpty) {
             let endIdx = content.endIndex
             var sum: Float = 0.0
             for var i in 0..<endIdx {
+                if content[i] < 1.0 {
+                    content[i] = 1.0
+                }
                 sum += content[i]
             }
             self.averageHappyPoint = sum/Float(endIdx)
@@ -115,25 +130,29 @@ class Statistics: UIViewController {
         label_days.textColor = UIColor.white
         remainView.addSubview(label_days)
         // label: average sleeping time - data
-        let label_sleep = UILabel.init(frame: CGRect.init(x: 60.5 * self.ratioWidth, y: 117.5 * self.ratioHeight, width: 29.5 * self.ratioWidth, height: 21 * self.ratioHeight))
-        label_sleep.text = "7.6"
+        let label_sleep = UILabel.init(frame: CGRect.init(x: 43.5/*60.5*/ * self.ratioWidth, y: 117.5 * self.ratioHeight, width: /*29.5*/ 64.5 * self.ratioWidth, height: 21 * self.ratioHeight))
+        label_sleep.textAlignment = .center
+        label_sleep.text = String(format: "%.1f", self.averageSleepingTime)
         label_sleep.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 20))
         label_sleep.textColor = UIColor.white
         remainView.addSubview(label_sleep)
         // label: average sleeping time
-        let label_sleeping = UILabel.init(frame: CGRect.init(x: 43.5 * self.ratioWidth, y: 141 * self.ratioHeight, width: 64.5 * self.ratioWidth, height: 11 * self.ratioHeight))
+        let label_sleeping = UILabel.init(frame: CGRect.init(x: 43.5 * self.ratioWidth, y: 141 * self.ratioHeight, width: self.frameWidth/2/*64.5 * self.ratioWidth*/, height: 11 * self.ratioHeight))
+        label_sleeping.textAlignment = .left
         label_sleeping.text = "平均睡眠时间"
         label_sleeping.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 10))
         label_sleeping.textColor = UIColor.white
         remainView.addSubview(label_sleeping)
         // label: average emotion condition - data
-        let label_emo = UILabel.init(frame: CGRect.init(x: 284 * self.ratioWidth, y: 117.5 * self.ratioHeight, width: 30.5 * self.ratioWidth, height: 21 * self.ratioHeight))
+        let label_emo = UILabel.init(frame: CGRect.init(x: 267.5/*284*/ * self.ratioWidth, y: 117.5 * self.ratioHeight, width: 64.5/*30.5*/ * self.ratioWidth, height: 21 * self.ratioHeight))
+        label_emo.textAlignment = .center
         label_emo.text = String(format: "%.1f", self.averageHappyPoint)
         label_emo.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 20))
         label_emo.textColor = UIColor.white
         remainView.addSubview(label_emo)
         // label: average emotion condition
-        let label_emotion = UILabel.init(frame: CGRect.init(x: 267.5 * self.ratioWidth, y: 141 * self.ratioHeight, width: 64.5 * self.ratioWidth, height: 11 * self.ratioHeight))
+        let label_emotion = UILabel.init(frame: CGRect.init(x: 267.5 * self.ratioWidth, y: 141 * self.ratioHeight, width: self.frameWidth / 2/*64.5 * self.ratioWidth*/, height: 11 * self.ratioHeight))
+        label_emotion.textAlignment = .left
         label_emotion.text = "平均情感状态"
         label_emotion.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 10))
         label_emotion.textColor = UIColor.white
@@ -148,7 +167,8 @@ class Statistics: UIViewController {
         remainView.addSubview(line)
         let week = ["MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"]
         let x: [CGFloat] = [18, 74.5, 127, 182, 235.5, 283, 334.5]
-        let width: [CGFloat] = [25.5, 21.5, 24.5, 22.5, 16.5, 21, 22.5]
+        //let width: [CGFloat] = [25.5, 21.5, 24.5, 22.5, 16.5, 21, 22.5]
+        let width: [CGFloat] = [30, 30, 30, 30, 30, 30, 30]
         for var i in 0..<7 {
             let label = UILabel.init(frame: CGRect.init(x: x[i] * self.ratioWidth, y: 413 * self.ratioHeight, width: width[i] * self.ratioWidth, height: 14.5 * self.ratioHeight))
             label.text = week[i]

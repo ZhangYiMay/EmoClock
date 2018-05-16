@@ -9,8 +9,9 @@
 
 import UIKit
 import AVFoundation
+import UserNotifications
 
-class MainPage: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
+class MainPage: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UNUserNotificationCenterDelegate {
     
     /* global var: the size of the frame */
     var frameHeight: CGFloat = 0.0
@@ -29,6 +30,8 @@ class MainPage: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     /* iphone6 frame width and height*/
     let IPHONE6_WIDTH: CGFloat = 375.0
     let IPHONE6_HEIGHT: CGFloat = 667.0
+    
+    let center = UNUserNotificationCenter.current()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -61,20 +64,44 @@ class MainPage: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
         /* set the bottom view */
         setBottomView()
         
-        /* record first launched time */
-        recordFirstLaunched()
+        let first: Bool = UserDefaults.standard.bool(forKey: "firstLauched")
+        if first {
+            /* open the notification reminder */
+            turnOnNotificationReminder()
+            /* record first launched time */
+            recordFirstLaunched()
+        }
+        
+    }
+    
+    func turnOnNotificationReminder() {
+        // 注册Notification
+        center.requestAuthorization(options: [UNAuthorizationOptions.sound, .alert], completionHandler: {(aBool, aError) in
+            if aError == nil {
+                print("no errors in request notification authorizations")
+            }else {
+                print("errors in request notification authorizations: \(aError.debugDescription)")
+            }
+        })
+        center.getNotificationSettings(completionHandler: {(notification) in
+            if notification.authorizationStatus == UNAuthorizationStatus.authorized {
+                print("已同意通知")
+            } else if notification.authorizationStatus == UNAuthorizationStatus.notDetermined {
+                print("不确定")
+            } else if notification.authorizationStatus == UNAuthorizationStatus.denied {
+                print("已拒绝通知")
+            }
+        })
+        center.delegate = self
     }
     
     func recordFirstLaunched() {
-        let first: Bool = UserDefaults.standard.bool(forKey: "firstLauched")
-        if first {
-            let now = NSDate()
-            let timeNow = now.timeIntervalSince1970
-            let path = StoreFileManager.getStoragePath(suffix: "/EmoClock/FirstUse/")
-            let filePath = path + "date.txt"
-            let dateArr = [timeNow]
-            StoreFileManager.storeFileToPath(path: filePath, info: NSArray.init(array: dateArr))
-        }
+        let now = NSDate()
+        let timeNow = now.timeIntervalSince1970
+        let path = StoreFileManager.getStoragePath(suffix: "/EmoClock/FirstUse/")
+        let filePath = path + "date.txt"
+        let dateArr = [timeNow]
+        StoreFileManager.storeFileToPath(path: filePath, info: NSArray.init(array: dateArr))
     }
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
@@ -93,6 +120,7 @@ class MainPage: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
         
         let itemImageLeft = UIImage.init(named: "statistics")
         let btnLeft = UIButton.init(frame: CGRect.init(x: 15 * self.ratioWidth, y: 32 * self.ratioHeight, width: 23.5 * self.ratioWidth, height: 20 * self.ratioHeight))
+        //let btnLeft = UIButton.init(frame: CGRect.init(x: 15 * self.ratioWidth, y: 32 * self.ratioHeight, width: 30 * self.ratioWidth, height: 30 * self.ratioHeight)) //test
         btnLeft.setImage(itemImageLeft, for: UIControlState.normal)
         barView.addSubview(btnLeft)
         btnLeft.addTarget(self, action: #selector(tapStatistics), for: .touchUpInside)
@@ -209,49 +237,73 @@ class MainPage: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource {
     @objc func tapStarting() {
         let vc = AddClock.init()
         
-        /* test */
+        /* 获得当前的年月日 */
         let alarm = Alarm.init()
         let now = NSDate()
         let timeNow = now.timeIntervalSince1970
         let dateform = DateFormatter.init()
-        //dateform.timeZone = TimeZone.init(identifier: "UTC")
         dateform.dateFormat = "yyyy年MM月dd日"// HH:mm"
-        let dateformSet = DateFormatter.init()
-        //dateformSet.timeZone = TimeZone.init(identifier: "UTC")
-        dateformSet.dateFormat = "yyyy年MM月dd日 HH:mm"
-        //dateformSet.timeZone = TimeZone.init(secondsFromGMT: 8 * 3600)
         let dateNowString = dateform.string(from: now as Date)
+        /* 获得设置闹钟的年月日时分 */
+        let dateformSet = DateFormatter.init()
+        dateformSet.dateFormat = "yyyy年MM月dd日 HH:mm"
         let dateStringSet = dateNowString + " \(self.clock_hour + (self.time_range == "AM" ? 0 : 12)):\(self.clock_minute)"
         var dateSet = dateformSet.date(from: dateStringSet)
+        //dateSet = dateSet?.addingTimeInterval(24 * 3600) //明天
         let timeSet = dateSet?.timeIntervalSince1970
-        //dateSet = dateSet?.addingTimeInterval(8*3600)
-        let weekdaySet = (Int(timeSet! / 86400) + 4) % 7 // 0 - 周一 6 - 周日
+        /* 获取星期和剩余时间 */
+        let calendar = NSCalendar.init(identifier: .chinese)
+        let zone = NSTimeZone.init(name: "Asia/Shanghai")
+        calendar?.timeZone = zone as! TimeZone
+        let weekdaySet = calendar?.component(.weekday, from: dateSet!) //1-周日 2-周一 7-周六
+        //let weekdaySet = (Int(timeSet! / 86400) + 4) % 7 // 0 - 周一 6 - 周日
         self.remainTime = (timeSet! - timeNow) / 3600 //hour
+        /* 分别获得设置闹钟的 年/月/日 */
+        let dateformYear = DateFormatter.init()
         let dateformMonth = DateFormatter.init()
         let dateformDay = DateFormatter.init()
-        //dateformMonth.timeZone = TimeZone.init(identifier: "UTC")
-        //dateformDay.timeZone = TimeZone.init(identifier: "UTC")
+        dateformYear.dateFormat = "yyyy"
         dateformMonth.dateFormat = "MM"
         dateformDay.dateFormat = "dd"
+        let year = Int(dateformYear.string(from: dateSet!))
         let month = Int(dateformMonth.string(from: dateSet!))
         let day = Int(dateformDay.string(from: dateSet!))
+        /* 设置闹钟 */
+        let music = MusicChose().getMusic()
+        alarm.musicName = music + ".m4a"
         alarm.alarmDate = dateSet
         alarm.turnOnAlarm()
-        /* store alarm info into file */
+        /* 将信息存在本地文件 */
+        // 闹钟基本信息
         let alarmInfoPath = StoreFileManager.getStoragePath(suffix: "/EmoClock/AlarmInfo/")
         let alramInfoFilePath = alarmInfoPath + "info.txt"
         print("store path: \(alarmInfoPath)")
         StoreFileManager.clearDirectory(path: alramInfoFilePath)
-        let alarmInfo: Dictionary<String, Any> = ["alarmHour": self.clock_hour, "alarmMinute": self.clock_minute, "alarmMonth": month, "alarmDay": day, "alarmWeek": weekdaySet, "musicIndex": 1, "musicName": "Ed Sheeran - the Shape of you", "musicExtension": "m4a", "alarm_range": self.time_range, "time_remain": self.remainTime]
+        let alarmInfo: Dictionary<String, Any> = ["alarmHour": self.clock_hour, "alarmMinute": self.clock_minute, "alarmMonth": month, "alarmDay": day, "alarmWeek": weekdaySet, "musicIndex": music, "musicName": music, "musicExtension": "m4a", "alarm_range": self.time_range, "time_remain": self.remainTime, "alarmYear": year, "dateSet": dateSet]
         var alarmInfoArray: Array<Dictionary<String, Any>> = []
         alarmInfoArray.append(alarmInfo)
         StoreFileManager.storeFileToPath(path: alramInfoFilePath, info: NSArray.init(array: alarmInfoArray))
+        // 平均睡眠时间
+        let sleepingPath = StoreFileManager.getStoragePath(suffix: "/EmoClock/SleepTime/")
+        let sleepingFile = sleepingPath + "average.txt"
+        var content = StoreFileManager.readFileAtPath(path: sleepingFile) as! Array<Dictionary<String, Any>>
+        var pastTotal: Double = 0.0
+        var pastCount: Int = 0
+        if !content.isEmpty {
+            pastTotal = content[0]["total"] as! Double
+            pastCount = content[0]["count"] as! Int
+        }
+        pastTotal += self.remainTime
+        pastCount += 1
+        content = [["total": pastTotal, "count": pastCount]]
+        StoreFileManager.storeFileToPath(path: sleepingFile, info: NSArray.init(array: content))
+        
         /* jump to AddClock viewcontroller */
         vc.clock_hour = self.clock_hour
         vc.clock_minute = self.clock_minute
         vc.time_range = self.time_range
         vc.remainTime = self.remainTime
-        vc.weekday = weekdaySet
+        vc.weekday = weekdaySet!
         vc.clock_month = month!
         vc.clock_day = day!
         self.navigationController?.pushViewController(vc, animated: true)

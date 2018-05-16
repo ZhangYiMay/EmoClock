@@ -23,7 +23,8 @@ class Ringing: UIViewController {
     let IPHONE6_WIDTH: CGFloat = 375.0
     let IPHONE6_HEIGHT: CGFloat = 667.0
     /* music name and extension */
-    let musicName = "419"
+    var musicIndex = "7" //K组初始化
+    var musicName = "7" //K组初始化
     let musicExt = "m4a"
     /* alarm infomation to display */
     var alarm_hour = 0
@@ -31,9 +32,11 @@ class Ringing: UIViewController {
     var alarm_month = 0
     var alarm_day = 0
     var alarm_week = 0
-    var alarm_music = ""
-    var music_idx = 0
+    var alarm_range = "AM"
+    var remain_time: Double = 0.0
     let weekCh = ["一", "二", "三", "四", "五", "六", "日"]
+    /* alarm date format */
+    var dateSet: Date?
     
     
     /* music */
@@ -84,7 +87,8 @@ class Ringing: UIViewController {
         // label: english
         let label_eng = UILabel.init(frame: CGRect.init(x: 80*self.ratioWidth, y: 264.5*self.ratioHeight, width: 216.5*self.ratioWidth, height: 15.5*self.ratioHeight))
         //label_eng.text = "Ed Sheeran - the Shape of you"
-        label_eng.text = self.alarm_music
+        label_eng.textAlignment = .center
+        label_eng.text = self.musicName
         label_eng.textColor = UIColor.white
         label_eng.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 15))
         self.view.addSubview(label_eng)
@@ -101,6 +105,7 @@ class Ringing: UIViewController {
         label.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 20))
         label.textColor = UIColor.white
         buttonCancel.addSubview(label)
+        buttonCancel.addTarget(self, action: #selector(delayAlarm), for: .touchUpInside)
         self.view.addSubview(buttonCancel)
         //buttonStart.addTarget(self, action: #selector(tapStarting), for: UIControlEvents.touchUpInside)
         //button close
@@ -135,8 +140,72 @@ class Ringing: UIViewController {
         self.player.play()
     }
     
+    @objc func delayAlarm() {
+        //print("delay alarm")
+        self.player.stop()
+        /* delete all the notifications*/
+        let center = UNUserNotificationCenter.current()
+        center.removeAllPendingNotificationRequests()
+        center.removeAllDeliveredNotifications()
+        /* remove files */
+        let path = StoreFileManager.getStoragePath(suffix: "/EmoClock/AlarmInfo/")
+        StoreFileManager.clearDirectory(path: path + "info.txt")
+        /* 设置新的闹钟 */
+        var newMin = self.alarm_minute + 10
+        var newHour = self.alarm_hour
+        if newMin >= 60 {
+            newMin -= 60
+            newHour = newHour + 1
+        }
+        let newDateSet = self.dateSet?.addingTimeInterval(600) //10min
+        /* 设置闹钟 */
+        let alarm = Alarm()
+        let music = MusicChose().getMusic()
+        alarm.musicName = music + ".m4a"
+        alarm.alarmDate = newDateSet
+        alarm.turnOnAlarm()
+        /* 将信息存在本地文件 */
+        // 闹钟基本信息
+        /* 分别获得设置闹钟的 年/月/日 */
+        let dateformYear = DateFormatter.init()
+        let dateformMonth = DateFormatter.init()
+        let dateformDay = DateFormatter.init()
+        dateformYear.dateFormat = "yyyy"
+        dateformMonth.dateFormat = "MM"
+        dateformDay.dateFormat = "dd"
+        let year = Int(dateformYear.string(from: newDateSet!))
+        let month = Int(dateformMonth.string(from: newDateSet!))
+        let day = Int(dateformDay.string(from: newDateSet!))
+        /* 获取星期和剩余时间 */
+        let calendar = NSCalendar.init(identifier: .chinese)
+        let zone = NSTimeZone.init(name: "Asia/Shanghai")
+        calendar?.timeZone = zone as! TimeZone
+        let weekdaySet = calendar?.component(.weekday, from: newDateSet!)
+        /* 存储 */
+        let alarmInfoPath = StoreFileManager.getStoragePath(suffix: "/EmoClock/AlarmInfo/")
+        let alramInfoFilePath = alarmInfoPath + "info.txt"
+        print("store path: \(alarmInfoPath)")
+        StoreFileManager.clearDirectory(path: alramInfoFilePath)
+        let alarmInfo: Dictionary<String, Any> = ["alarmHour": newHour, "alarmMinute": newMin, "alarmMonth": month, "alarmDay": day, "alarmWeek": weekdaySet, "musicIndex": music, "musicName": music, "musicExtension": "m4a", "alarm_range": self.alarm_range, "time_remain": self.remain_time, "alarmYear": year, "dateSet": newDateSet]
+        var alarmInfoArray: Array<Dictionary<String, Any>> = []
+        alarmInfoArray.append(alarmInfo)
+        StoreFileManager.storeFileToPath(path: alramInfoFilePath, info: NSArray.init(array: alarmInfoArray))
+        /* 页面跳转 */
+        let ad = AddClock()
+        ad.clockDate = newDateSet
+        ad.clock_month = month!
+        ad.clock_day = day!
+        ad.clock_hour = newHour
+        ad.clock_minute = newMin
+        ad.weekday = weekdaySet!
+        ad.time_range = self.alarm_range
+        ad.remainTime = self.remain_time
+        ad.init_flag = true
+        self.navigationController?.pushViewController(ad, animated: true)
+    }
+    
     @objc func closeAllClocks() {
-        print("closeAllClocks...")
+        //print("closeAllClocks...")
         self.player.stop()
         /* delete all the notifications*/
         let center = UNUserNotificationCenter.current()
@@ -153,7 +222,7 @@ class Ringing: UIViewController {
         fd.alarm_minute = self.alarm_minute
         fd.alarm_month = self.alarm_month
         fd.alarm_day = self.alarm_day
-        fd.alarm_music = self.alarm_music
+        //fd.alarm_music = self.alarm_music
         self.navigationController?.pushViewController(fd, animated: true)
     }
     
@@ -167,9 +236,12 @@ class Ringing: UIViewController {
             self.alarm_month = alarmInfo["alarmMonth"] as! Int
             self.alarm_day = alarmInfo["alarmDay"] as! Int
             self.alarm_week = alarmInfo["alarmWeek"] as! Int
-            self.alarm_music = alarmInfo["musicName"] as! String
-            self.music_idx = alarmInfo["musicIndex"] as! Int
-            print(alarmInfo)
+            self.musicName = alarmInfo["musicName"] as! String
+            self.musicIndex = alarmInfo["musicIndex"] as! String
+            self.dateSet = alarmInfo["dateSet"] as! Date?
+            self.remain_time = alarmInfo["time_remain"] as! Double
+            self.alarm_range = alarmInfo["alarm_range"] as! String
+            //print(alarmInfo)
         }
         
     }
