@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		23028AA320B163A600690FCE /* SelfTestOver.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23028AA220B163A600690FCE /* SelfTestOver.swift */; };
+		23048D6620AD54950062CBAA /* UIDeviceExt.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23048D6520AD54950062CBAA /* UIDeviceExt.swift */; };
 		231FABE9209ECE7500E5B71F /* 411.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 231FABCC209ECE7500E5B71F /* 411.m4a */; };
 		231FABEA209ECE7500E5B71F /* 6.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 231FABCF209ECE7500E5B71F /* 6.m4a */; };
 		231FABEB209ECE7500E5B71F /* 5.m4a in Resources */ = {isa = PBXBuildFile; fileRef = 231FABD1209ECE7500E5B71F /* 5.m4a */; };
@@ -28,6 +30,14 @@
 		2335A309204D41300057BDCB /* Ringing.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2335A308204D41300057BDCB /* Ringing.swift */; };
 		2335A30B204D41550057BDCB /* Feedback.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2335A30A204D41550057BDCB /* Feedback.swift */; };
 		233C534B204C1F8B00D0383C /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 233C534A204C1F8B00D0383C /* Setting.swift */; };
+		235CB22A20AFE4E5008A297F /* NormalProblems.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235CB22920AFE4E5008A297F /* NormalProblems.swift */; };
+		235CB22C20B0029F008A297F /* SelfTestAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235CB22B20B0029F008A297F /* SelfTestAlert.swift */; };
+		235CB22E20B04C47008A297F /* SelfTest1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235CB22D20B04C47008A297F /* SelfTest1.swift */; };
+		235CB23020B051C1008A297F /* SelfTest3.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235CB22F20B051C1008A297F /* SelfTest3.swift */; };
+		235CB23220B052D6008A297F /* SelfTest4.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235CB23120B052D6008A297F /* SelfTest4.swift */; };
+		235CB23420B053D4008A297F /* SelfTest5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235CB23320B053D4008A297F /* SelfTest5.swift */; };
+		235CB23620B053FE008A297F /* SelfTest6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235CB23520B053FE008A297F /* SelfTest6.swift */; };
+		235CB23820B05408008A297F /* SelfTest2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235CB23720B05408008A297F /* SelfTest2.swift */; };
 		23D12B3C209DE408004CE803 /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D12B3B209DE408004CE803 /* GuideView.swift */; };
 		23D63941208DD93000385A17 /* FontSizeAdaptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D63940208DD93000385A17 /* FontSizeAdaptor.swift */; };
 		23F5D3D320503C2E006707AC /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F5D3D220503C2E006707AC /* Alarm.swift */; };
@@ -71,6 +81,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		23028AA220B163A600690FCE /* SelfTestOver.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfTestOver.swift; sourceTree = "<group>"; };
+		23048D6520AD54950062CBAA /* UIDeviceExt.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIDeviceExt.swift; sourceTree = "<group>"; };
 		231FABCC209ECE7500E5B71F /* 411.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 411.m4a; sourceTree = "<group>"; };
 		231FABCF209ECE7500E5B71F /* 6.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 6.m4a; sourceTree = "<group>"; };
 		231FABD1209ECE7500E5B71F /* 5.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = 5.m4a; sourceTree = "<group>"; };
@@ -92,6 +104,14 @@
 		2335A308204D41300057BDCB /* Ringing.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Ringing.swift; sourceTree = "<group>"; };
 		2335A30A204D41550057BDCB /* Feedback.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feedback.swift; sourceTree = "<group>"; };
 		233C534A204C1F8B00D0383C /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
+		235CB22920AFE4E5008A297F /* NormalProblems.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NormalProblems.swift; sourceTree = "<group>"; };
+		235CB22B20B0029F008A297F /* SelfTestAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfTestAlert.swift; sourceTree = "<group>"; };
+		235CB22D20B04C47008A297F /* SelfTest1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfTest1.swift; sourceTree = "<group>"; };
+		235CB22F20B051C1008A297F /* SelfTest3.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfTest3.swift; sourceTree = "<group>"; };
+		235CB23120B052D6008A297F /* SelfTest4.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfTest4.swift; sourceTree = "<group>"; };
+		235CB23320B053D4008A297F /* SelfTest5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfTest5.swift; sourceTree = "<group>"; };
+		235CB23520B053FE008A297F /* SelfTest6.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfTest6.swift; sourceTree = "<group>"; };
+		235CB23720B05408008A297F /* SelfTest2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfTest2.swift; sourceTree = "<group>"; };
 		23D12B3B209DE408004CE803 /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
 		23D63940208DD93000385A17 /* FontSizeAdaptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSizeAdaptor.swift; sourceTree = "<group>"; };
 		23F44F572055036E00AE993B /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -321,6 +341,7 @@
 			children = (
 				231FABCA209ECE7500E5B71F /* music */,
 				23F73F4B204AE566005223CD /* AppDelegate.swift */,
+				23048D6520AD54950062CBAA /* UIDeviceExt.swift */,
 				2335A308204D41300057BDCB /* Ringing.swift */,
 				23F5D3D220503C2E006707AC /* Alarm.swift */,
 				2335A30A204D41550057BDCB /* Feedback.swift */,
@@ -336,6 +357,15 @@
 				2323E3AB2092130B00906DD4 /* StoreFileManager.swift */,
 				23D12B3B209DE408004CE803 /* GuideView.swift */,
 				231FABF7209ED06500E5B71F /* MusicChosen.swift */,
+				235CB22920AFE4E5008A297F /* NormalProblems.swift */,
+				235CB22B20B0029F008A297F /* SelfTestAlert.swift */,
+				235CB22D20B04C47008A297F /* SelfTest1.swift */,
+				235CB22F20B051C1008A297F /* SelfTest3.swift */,
+				235CB23120B052D6008A297F /* SelfTest4.swift */,
+				235CB23320B053D4008A297F /* SelfTest5.swift */,
+				235CB23520B053FE008A297F /* SelfTest6.swift */,
+				235CB23720B05408008A297F /* SelfTest2.swift */,
+				23028AA220B163A600690FCE /* SelfTestOver.swift */,
 			);
 			path = EmoClock;
 			sourceTree = "<group>";
@@ -507,17 +537,27 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				235CB22A20AFE4E5008A297F /* NormalProblems.swift in Sources */,
 				2335A309204D41300057BDCB /* Ringing.swift in Sources */,
 				23F73F4C204AE566005223CD /* AppDelegate.swift in Sources */,
 				23F73F9A204AFC95005223CD /* MainPage.swift in Sources */,
+				235CB23020B051C1008A297F /* SelfTest3.swift in Sources */,
 				23F5D3D320503C2E006707AC /* Alarm.swift in Sources */,
+				235CB22E20B04C47008A297F /* SelfTest1.swift in Sources */,
+				235CB22C20B0029F008A297F /* SelfTestAlert.swift in Sources */,
+				235CB23220B052D6008A297F /* SelfTest4.swift in Sources */,
+				23028AA320B163A600690FCE /* SelfTestOver.swift in Sources */,
 				2335A305204CEAB30057BDCB /* AddClock.swift in Sources */,
 				231FABF8209ED06500E5B71F /* MusicChosen.swift in Sources */,
 				2323E3AC2092130B00906DD4 /* StoreFileManager.swift in Sources */,
 				2335A307204D28CF0057BDCB /* Statistics.swift in Sources */,
+				23048D6620AD54950062CBAA /* UIDeviceExt.swift in Sources */,
 				2335A30B204D41550057BDCB /* Feedback.swift in Sources */,
 				23D12B3C209DE408004CE803 /* GuideView.swift in Sources */,
+				235CB23420B053D4008A297F /* SelfTest5.swift in Sources */,
 				233C534B204C1F8B00D0383C /* Setting.swift in Sources */,
+				235CB23820B05408008A297F /* SelfTest2.swift in Sources */,
+				235CB23620B053FE008A297F /* SelfTest6.swift in Sources */,
 				23D63941208DD93000385A17 /* FontSizeAdaptor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -688,7 +728,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QF63X87GTF;
 				INFOPLIST_FILE = EmoClock/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Erene.EmoClock;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -706,7 +746,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = QF63X87GTF;
 				INFOPLIST_FILE = EmoClock/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 11.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Erene.EmoClock;
 				PRODUCT_NAME = "$(TARGET_NAME)";

@@ -31,7 +31,7 @@ class StoreFileManager {
     
     static func storeFileToPath(path: String, info: NSArray) {
         info.write(toFile: path, atomically: true)
-        print("info write success:\(info[0])")
+        //print("info write success:\(info[0])")
     }
     
     static func readFileAtPath(path: String) -> Array<Any> {

@@ -33,19 +33,22 @@ class Ringing: UIViewController {
     var alarm_day = 0
     var alarm_week = 0
     var alarm_range = "AM"
+    var today = false
     var remain_time: Double = 0.0
-    let weekCh = ["一", "二", "三", "四", "五", "六", "日"]
+    let weekCh = ["", "日", "一", "二", "三", "四", "五", "六"]
     /* alarm date format */
     var dateSet: Date?
-    
+    /* device */
+    let platform = UIDevice.current.modelName
     
     /* music */
     var player: AVAudioPlayer = AVAudioPlayer.init()
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-        self.navigationController?.isNavigationBarHidden = true
+        
+        //self.navigationController?.isNavigationBarHidden = true
+        self.navigationController?.navigationBar.isHidden = true
         /* read alarm info from file */
         readAlarmInfoFromFile()
         /* get the size of the frame */
@@ -59,9 +62,14 @@ class Ringing: UIViewController {
             self.ratioWidth = self.ratioHeight
         }
         self.view.backgroundColor = self.backColor
+        /* offset for iphone X */
+        var offset: CGFloat = 0.0
+        if platform == "iPhone X" || (self.frameWidth.isEqual(to: 375.0) && self.frameHeight.isEqual(to: 812.0)) {
+            offset = 55.0
+        }
         // label: show clock time
         //let label_time = UILabel.init(frame: CGRect.init(x: 134*self.ratioWidth, y: 91*self.ratioHeight, width: 107.5*self.ratioWidth, height: 52*self.ratioHeight))
-        let label_time = UILabel.init(frame: CGRect.init(x: 0, y: 91*self.ratioHeight, width: self.frameWidth, height: 52*self.ratioHeight))
+        let label_time = UILabel.init(frame: CGRect.init(x: 0, y: (91+offset)*self.ratioHeight, width: self.frameWidth, height: 52*self.ratioHeight))
         label_time.textAlignment = .center
         label_time.text = String(self.alarm_hour) + ":" + (self.alarm_minute < 10 ? "0"+String(self.alarm_minute) : String(self.alarm_minute))
         label_time.textColor = UIColor.white
@@ -69,7 +77,7 @@ class Ringing: UIViewController {
         self.view.addSubview(label_time)
         // label: date
         //let label_date = UILabel.init(frame: CGRect.init(x: 136.5*self.ratioWidth, y: 150.5*self.ratioHeight, width: 102*self.ratioWidth, height: 15.5*self.ratioHeight))
-        let label_date = UILabel.init(frame: CGRect.init(x: 0, y: 150.5*self.ratioHeight, width: self.frameWidth, height: 15.5*self.ratioHeight))
+        let label_date = UILabel.init(frame: CGRect.init(x: 0, y: (offset+150.5)*self.ratioHeight, width: self.frameWidth, height: 15.5*self.ratioHeight))
         label_date.textAlignment = .center
         //label_date.text = "11.25日 星期五"
         label_date.text = (self.alarm_month < 10 ? "0" + String(self.alarm_month) : String(self.alarm_month)) + "." + (self.alarm_day < 10 ? "0" + String(self.alarm_day) : String(self.alarm_day)) + "日 星期" + weekCh[self.alarm_week]
@@ -78,14 +86,14 @@ class Ringing: UIViewController {
         self.view.addSubview(label_date)
         // label: name
         //let label_name = UILabel.init(frame: CGRect.init(x: 165.5*self.ratioWidth, y: 231.5*self.ratioHeight, width: 45*self.ratioWidth, height: 23*self.ratioHeight))
-        let label_name = UILabel.init(frame: CGRect.init(x: 0, y: 231.5*self.ratioHeight, width: self.frameWidth, height: 23*self.ratioHeight))
+        let label_name = UILabel.init(frame: CGRect.init(x: 0, y: (offset+231.5)*self.ratioHeight, width: self.frameWidth, height: 23*self.ratioHeight))
         label_name.textAlignment = .center
         label_name.text = "闹钟"
         label_name.textColor = UIColor.white
         label_name.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 22))
         self.view.addSubview(label_name)
         // label: english
-        let label_eng = UILabel.init(frame: CGRect.init(x: 80*self.ratioWidth, y: 264.5*self.ratioHeight, width: 216.5*self.ratioWidth, height: 15.5*self.ratioHeight))
+        let label_eng = UILabel.init(frame: CGRect.init(x: 80*self.ratioWidth, y: (offset+264.5)*self.ratioHeight, width: 216.5*self.ratioWidth, height: 15.5*self.ratioHeight))
         //label_eng.text = "Ed Sheeran - the Shape of you"
         label_eng.textAlignment = .center
         label_eng.text = self.musicName
@@ -93,7 +101,7 @@ class Ringing: UIViewController {
         label_eng.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 15))
         self.view.addSubview(label_eng)
         // button cancel
-        let btnRect = CGRect.init(x: 46.5 * self.ratioWidth, y: 371.5*self.ratioHeight, width: 280 * self.ratioWidth, height: 57 * self.ratioHeight)
+        let btnRect = CGRect.init(x: 46.5 * self.ratioWidth, y: (offset+371.5)*self.ratioHeight, width: 280 * self.ratioWidth, height: 57 * self.ratioHeight)
         let buttonCancel = UIButton.init(frame: btnRect)
         buttonCancel.layer.masksToBounds = true
         buttonCancel.layer.cornerRadius = 30 * self.ratioWidth
@@ -109,7 +117,7 @@ class Ringing: UIViewController {
         self.view.addSubview(buttonCancel)
         //buttonStart.addTarget(self, action: #selector(tapStarting), for: UIControlEvents.touchUpInside)
         //button close
-        let view = UIView.init(frame: CGRect.init(x: 115*self.ratioWidth, y: 531*self.ratioHeight, width: 145.5*self.ratioWidth, height: 57.5*self.ratioHeight))
+        let view = UIView.init(frame: CGRect.init(x: 115*self.ratioWidth, y: (offset+531)*self.ratioHeight, width: 145.5*self.ratioWidth, height: 57.5*self.ratioHeight))
         view.backgroundColor = UIColor.init(red: 50/255, green: 136/255, blue: 1, alpha: 1)
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 30 * self.ratioWidth
@@ -186,7 +194,7 @@ class Ringing: UIViewController {
         let alramInfoFilePath = alarmInfoPath + "info.txt"
         print("store path: \(alarmInfoPath)")
         StoreFileManager.clearDirectory(path: alramInfoFilePath)
-        let alarmInfo: Dictionary<String, Any> = ["alarmHour": newHour, "alarmMinute": newMin, "alarmMonth": month, "alarmDay": day, "alarmWeek": weekdaySet, "musicIndex": music, "musicName": music, "musicExtension": "m4a", "alarm_range": self.alarm_range, "time_remain": self.remain_time, "alarmYear": year, "dateSet": newDateSet]
+        let alarmInfo: Dictionary<String, Any> = ["alarmHour": newHour, "alarmMinute": newMin, "alarmMonth": month, "alarmDay": day, "alarmWeek": weekdaySet, "musicIndex": music, "musicName": music, "musicExtension": "m4a", "alarm_range": self.alarm_range, "time_remain": self.remain_time, "alarmYear": year, "dateSet": newDateSet, "today": self.today]
         var alarmInfoArray: Array<Dictionary<String, Any>> = []
         alarmInfoArray.append(alarmInfo)
         StoreFileManager.storeFileToPath(path: alramInfoFilePath, info: NSArray.init(array: alarmInfoArray))
@@ -201,6 +209,7 @@ class Ringing: UIViewController {
         ad.time_range = self.alarm_range
         ad.remainTime = self.remain_time
         ad.init_flag = true
+        ad.today = self.today
         self.navigationController?.pushViewController(ad, animated: true)
     }
     
@@ -241,6 +250,7 @@ class Ringing: UIViewController {
             self.dateSet = alarmInfo["dateSet"] as! Date?
             self.remain_time = alarmInfo["time_remain"] as! Double
             self.alarm_range = alarmInfo["alarm_range"] as! String
+            self.today = alarmInfo["today"] as! Bool
             //print(alarmInfo)
         }
         
@@ -248,6 +258,11 @@ class Ringing: UIViewController {
     
     func setBottomView() {
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
     }
     
     override func didReceiveMemoryWarning() {

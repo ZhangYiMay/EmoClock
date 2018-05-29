@@ -11,7 +11,7 @@ import UIKit
 import AVFoundation
 import UserNotifications
 
-class MainPage: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UNUserNotificationCenterDelegate {
+class MainPage: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, UNUserNotificationCenterDelegate, UIAlertViewDelegate {
     
     /* global var: the size of the frame */
     var frameHeight: CGFloat = 0.0
@@ -27,19 +27,25 @@ class MainPage: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
     var clock_minute = 0
     var time_range = "AM"
     var remainTime: Double = 0
+    var today: Bool = true
     /* iphone6 frame width and height*/
     let IPHONE6_WIDTH: CGFloat = 375.0
     let IPHONE6_HEIGHT: CGFloat = 667.0
+    /* platform */
+    let platform = UIDevice.current.modelName
+    
+    var flag = true
     
     let center = UNUserNotificationCenter.current()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        //print("MainPage: viewDidLoad")
         // Do any additional setup after loading the view, typically from a nib.
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
         self.navigationController?.navigationBar.isHidden = true
-        let bundlePath = Bundle.main.path(forResource: "shape of you", ofType: "m4a")
-        print("bundlePath:\(bundlePath)")
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+//        let bundlePath = Bundle.main.path(forResource: "shape of you", ofType: "m4a")
+//        print("bundlePath:\(bundlePath)")
         /* get the size of the frame */
         self.frameHeight = self.view.frame.height
         self.frameWidth = self.view.frame.width
@@ -65,13 +71,27 @@ class MainPage: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         setBottomView()
         
         let first: Bool = UserDefaults.standard.bool(forKey: "firstLauched")
-        if first {
+        if first && flag {
             /* open the notification reminder */
             turnOnNotificationReminder()
             /* record first launched time */
             recordFirstLaunched()
+            /* alert self test */
+            alertSelfTest()
         }
-        
+        //alertSelfTest()
+    }
+    
+    func alertSelfTest() {
+        let alert = UIAlertController.init(title: "起床心情自测", message: "Hi，初次相识，几个小问题，帮助更好的了解你适合什么样的起床铃声哦 ：）", preferredStyle: UIAlertControllerStyle.alert)
+        let rect = CGRect.init(x: 0 * self.ratioWidth, y: 0 * self.ratioHeight, width: 300 * self.ratioWidth, height: 324.5 * self.ratioHeight)
+        let view = UIView.init(frame: rect)
+        //alert.view = view
+        let action = UIAlertAction.init(title: "开始测试", style: .default, handler: {(action)->Void in
+            (self.navigationController?.pushViewController(SelfTest1(), animated: true))!
+        })
+        alert.addAction(action)
+        self.navigationController?.present(alert, animated: true, completion: nil)
     }
     
     func turnOnNotificationReminder() {
@@ -103,39 +123,74 @@ class MainPage: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         let dateArr = [timeNow]
         StoreFileManager.storeFileToPath(path: filePath, info: NSArray.init(array: dateArr))
     }
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        //UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
-    }
+    
     func setNavBarStyle() {
-        let barView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.frameWidth, height: 64.5*self.ratioHeight))
-        barView.backgroundColor = self.backColor
         
-        let label = UILabel.init(frame: CGRect.init(x: 151*self.ratioWidth, y: 34.5*self.ratioHeight, width: 73*self.ratioWidth, height: 15.5*self.ratioHeight))
-        label.textColor = UIColor.white
-        label.textAlignment = NSTextAlignment.center
-        label.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 15))
-        label.text = "EmoClock"
-        barView.addSubview(label)
-        
-        let itemImageLeft = UIImage.init(named: "statistics")
-        let btnLeft = UIButton.init(frame: CGRect.init(x: 15 * self.ratioWidth, y: 32 * self.ratioHeight, width: 23.5 * self.ratioWidth, height: 20 * self.ratioHeight))
-        //let btnLeft = UIButton.init(frame: CGRect.init(x: 15 * self.ratioWidth, y: 32 * self.ratioHeight, width: 30 * self.ratioWidth, height: 30 * self.ratioHeight)) //test
-        btnLeft.setImage(itemImageLeft, for: UIControlState.normal)
-        barView.addSubview(btnLeft)
-        btnLeft.addTarget(self, action: #selector(tapStatistics), for: .touchUpInside)
-        
-        let itemImageRight = UIImage.init(named: "set")
-        let btnRight = UIButton.init(frame: CGRect.init(x: 335 * self.ratioWidth, y: 28 * self.ratioHeight, width: 28 * self.ratioWidth, height: 28 * self.ratioHeight))
-        btnRight.setImage(itemImageRight, for: UIControlState.normal)
-        barView.addSubview(btnRight)
-        btnRight.addTarget(self, action: #selector(tapSetting), for: UIControlEvents.touchUpInside)
-        
-        self.view.addSubview(barView)
+        if platform == "iPhone X" || (frameWidth == 375.0 && frameHeight == 812.0)
+        {
+            let barView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.frameWidth, height: 89))
+            barView.backgroundColor = self.backColor
+            
+            let label = UILabel.init(frame: CGRect.init(x: 146, y: 53, width: 83, height: 24))
+            label.textColor = UIColor.white
+            label.textAlignment = NSTextAlignment.center
+            label.font = UIFont.systemFont(ofSize: 16)
+            label.text = "EmoClock"
+            barView.addSubview(label)
+            
+            let itemImageLeft = UIImage.init(named: "statistics")
+            let btnLeft = UIButton.init(frame: CGRect.init(x: 15, y: 55, width: 22, height: 20))
+            //let btnLeft = UIButton.init(frame: CGRect.init(x: 15 * self.ratioWidth, y: 32 * self.ratioHeight, width: 30 * self.ratioWidth, height: 30 * self.ratioHeight)) //test
+            btnLeft.setImage(itemImageLeft, for: UIControlState.normal)
+            barView.addSubview(btnLeft)
+            btnLeft.addTarget(self, action: #selector(tapStatistics), for: .touchUpInside)
+            
+            let itemImageRight = UIImage.init(named: "set")
+            let btnRight = UIButton.init(frame: CGRect.init(x: 333, y: 51, width: 27, height: 27))
+            btnRight.setImage(itemImageRight, for: UIControlState.normal)
+            barView.addSubview(btnRight)
+            btnRight.addTarget(self, action: #selector(tapSetting), for: UIControlEvents.touchUpInside)
+            self.view.addSubview(barView)
+        }
+        else
+        {
+            let barView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.frameWidth, height: 64.5*self.ratioHeight))
+            barView.backgroundColor = self.backColor
+            
+            let label = UILabel.init(frame: CGRect.init(x: 151*self.ratioWidth, y: 34.5*self.ratioHeight, width: 73*self.ratioWidth, height: 15.5*self.ratioHeight))
+            label.textColor = UIColor.white
+            label.textAlignment = NSTextAlignment.center
+            label.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 15))
+            label.text = "EmoClock"
+            barView.addSubview(label)
+            
+            let itemImageLeft = UIImage.init(named: "statistics")
+            let btnLeft = UIButton.init(frame: CGRect.init(x: 15 * self.ratioWidth, y: 32 * self.ratioHeight, width: 23.5 * self.ratioWidth, height: 20 * self.ratioHeight))
+            //let btnLeft = UIButton.init(frame: CGRect.init(x: 15 * self.ratioWidth, y: 32 * self.ratioHeight, width: 30 * self.ratioWidth, height: 30 * self.ratioHeight)) //test
+            btnLeft.setImage(itemImageLeft, for: UIControlState.normal)
+            barView.addSubview(btnLeft)
+            btnLeft.addTarget(self, action: #selector(tapStatistics), for: .touchUpInside)
+            
+            let itemImageRight = UIImage.init(named: "set")
+            let btnRight = UIButton.init(frame: CGRect.init(x: 335 * self.ratioWidth, y: 28 * self.ratioHeight, width: 28 * self.ratioWidth, height: 28 * self.ratioHeight))
+            btnRight.setImage(itemImageRight, for: UIControlState.normal)
+            barView.addSubview(btnRight)
+            btnRight.addTarget(self, action: #selector(tapSetting), for: UIControlEvents.touchUpInside)
+            self.view.addSubview(barView)
+        }
     }
     
     func setPickerStyle() {
-        let pickerBackView = UIView.init(frame: CGRect.init(x: 0, y: 65.0 * self.ratioHeight, width: self.frameWidth, height: self.frameHeight - 65.0 * self.ratioHeight))
+        var pickerBackView = UIView.init()
+        if platform == "iPhone X" || (frameWidth == 375.0 && frameHeight == 812.0)
+        {
+            pickerBackView = UIView.init(frame: CGRect.init(x: 0, y: 89.5 * self.ratioHeight, width: self.frameWidth, height: self.frameHeight - 65.0 * self.ratioHeight))
+        }
+        else
+        {
+            pickerBackView = UIView.init(frame: CGRect.init(x: 0, y: 65.0 * self.ratioHeight, width: self.frameWidth, height: self.frameHeight - 65.0 * self.ratioHeight))
+        }
+        
         pickerBackView.backgroundColor = self.backColor
         let imView = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: self.frameWidth, height: 446.0 * self.ratioHeight))
         imView.image = UIImage.init(named: "background")
@@ -157,13 +212,17 @@ class MainPage: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         buttonStart.layer.masksToBounds = true
         buttonStart.layer.cornerRadius = 30 * self.ratioWidth
         buttonStart.backgroundColor = UIColor.init(red: 50/255, green: 136/255, blue: 1, alpha: 1)
+        buttonStart.setTitle("开始 Start", for: .normal)
+        buttonStart.setTitleColor(UIColor.white, for: .normal)
+        buttonStart.setTitleColor(UIColor.gray, for: .highlighted)
+        buttonStart.titleLabel?.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 20))
         //let label = UILabel.init(frame: CGRect.init(x: 96.5 * self.ratioWidth, y: 16.5 * self.ratioHeight, width: (87.5+96) * self.ratioWidth, height: 23.5 * self.ratioHeight))
-        let label = UILabel.init(frame: CGRect.init(x: 00, y: 0, width: buttonStart.frame.width, height: buttonStart.frame.height))
-        label.text = "开始 Start"
-        label.textAlignment = NSTextAlignment.center
-        label.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 20))
-        label.textColor = UIColor.white
-        buttonStart.addSubview(label)
+//        let label = UILabel.init(frame: CGRect.init(x: 00, y: 0, width: buttonStart.frame.width, height: buttonStart.frame.height))
+//        label.text = "开始 Start"
+//        label.textAlignment = NSTextAlignment.center
+//        label.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 20))
+//        label.textColor = UIColor.white
+//        buttonStart.addSubview(label)
         bottomView.addSubview(buttonStart)
         self.view.addSubview(bottomView)
         
@@ -235,10 +294,9 @@ class MainPage: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         self.navigationController?.pushViewController(vc, animated: true)
     }
     @objc func tapStarting() {
-        let vc = AddClock.init()
+        
         
         /* 获得当前的年月日 */
-        let alarm = Alarm.init()
         let now = NSDate()
         let timeNow = now.timeIntervalSince1970
         let dateform = DateFormatter.init()
@@ -249,7 +307,30 @@ class MainPage: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         dateformSet.dateFormat = "yyyy年MM月dd日 HH:mm"
         let dateStringSet = dateNowString + " \(self.clock_hour + (self.time_range == "AM" ? 0 : 12)):\(self.clock_minute)"
         var dateSet = dateformSet.date(from: dateStringSet)
-        //dateSet = dateSet?.addingTimeInterval(24 * 3600) //明天
+        /* 如果当前时间是晚上8-12点 则定的是第二天闹钟 否则定当天的 */
+        let hourformDay = DateFormatter.init()
+        hourformDay.dateFormat = "HH"
+        let hour = Int(hourformDay.string(from: now as Date))
+        if hour! >= 20 && hour! <= 24 {
+            self.today = false
+            dateSet = dateSet?.addingTimeInterval(24 * 3600) //明天
+            setAndStoreAlarm(dateSet: dateSet, timeNow: timeNow)
+        } else {
+            self.today = true
+            if timeNow > (dateSet?.timeIntervalSince1970)! { //设置非法闹钟
+                let alert = UIAlertController.init(title: "不能设置早于当前时刻的闹钟哦～", message: "每天晚上8:00到11:59设置的是第二天的闹钟，其余时间设置的都是当天闹钟", preferredStyle: .alert)
+                let action = UIAlertAction.init(title: "好的", style: .cancel, handler: nil)
+                alert.addAction(action)
+                self.navigationController?.present(alert, animated: true, completion: nil)
+            } else {
+                setAndStoreAlarm(dateSet: dateSet, timeNow: timeNow)
+            }
+        }
+        
+    }
+    
+    func setAndStoreAlarm(dateSet: Date!, timeNow: TimeInterval) {
+        let alarm = Alarm.init()
         let timeSet = dateSet?.timeIntervalSince1970
         /* 获取星期和剩余时间 */
         let calendar = NSCalendar.init(identifier: .chinese)
@@ -279,7 +360,7 @@ class MainPage: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         let alramInfoFilePath = alarmInfoPath + "info.txt"
         print("store path: \(alarmInfoPath)")
         StoreFileManager.clearDirectory(path: alramInfoFilePath)
-        let alarmInfo: Dictionary<String, Any> = ["alarmHour": self.clock_hour, "alarmMinute": self.clock_minute, "alarmMonth": month, "alarmDay": day, "alarmWeek": weekdaySet, "musicIndex": music, "musicName": music, "musicExtension": "m4a", "alarm_range": self.time_range, "time_remain": self.remainTime, "alarmYear": year, "dateSet": dateSet]
+        let alarmInfo: Dictionary<String, Any> = ["alarmHour": self.clock_hour, "alarmMinute": self.clock_minute, "alarmMonth": month, "alarmDay": day, "alarmWeek": weekdaySet, "musicIndex": music, "musicName": music, "musicExtension": "m4a", "alarm_range": self.time_range, "time_remain": self.remainTime, "alarmYear": year, "dateSet": dateSet, "today" : self.today]
         var alarmInfoArray: Array<Dictionary<String, Any>> = []
         alarmInfoArray.append(alarmInfo)
         StoreFileManager.storeFileToPath(path: alramInfoFilePath, info: NSArray.init(array: alarmInfoArray))
@@ -295,10 +376,11 @@ class MainPage: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         }
         pastTotal += self.remainTime
         pastCount += 1
-        content = [["total": pastTotal, "count": pastCount]]
+        content = [["total": pastTotal, "count": pastCount, "recent": self.remainTime]]
         StoreFileManager.storeFileToPath(path: sleepingFile, info: NSArray.init(array: content))
         
         /* jump to AddClock viewcontroller */
+        let vc = AddClock.init()
         vc.clock_hour = self.clock_hour
         vc.clock_minute = self.clock_minute
         vc.time_range = self.time_range
@@ -306,12 +388,20 @@ class MainPage: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         vc.weekday = weekdaySet!
         vc.clock_month = month!
         vc.clock_day = day!
+        vc.today = self.today
         self.navigationController?.pushViewController(vc, animated: true)
     }
+    
     @objc func tapStatistics() {
         let sb = UIStoryboard.init(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: "Statistics") as UIViewController
         self.navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        //print("MainPage: viewWillAppear")
     }
     
     override func didReceiveMemoryWarning() {

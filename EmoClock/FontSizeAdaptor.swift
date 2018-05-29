@@ -18,7 +18,6 @@ class FontSizeAdaptor {
         } else if frameWidth == 375.0 {
             return fontSize
         } else {
-            print("other framewidth condition")
             // continue to add
             return (fontSize + 2)
         }

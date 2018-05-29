@@ -9,8 +9,8 @@
 import UIKit
 
 class MusicChose {
-    fileprivate let music = [["5"  , "100", "411",  nil],
-                             ["8"  , "4"  , "1"  ,  nil],
+    fileprivate let music = [["5"  , "100", "411",  "411"],
+                             ["8"  , "4"  , "1"  ,  "1"],
                              ["520", "6"  , "7"  , "33"],
                              ["372", "494", "13" , "18"],]
     
@@ -21,6 +21,13 @@ class MusicChose {
         let content_v = StoreFileManager.readFileAtPath(path: path_v) as! Array<Float>
         if !content_v.isEmpty {
             pv = content_v.last!
+        } else { //查看selftest的结果
+            let path = StoreFileManager.getStoragePath(suffix: "/EmoClock/Test/musicKind.txt")
+            let content = StoreFileManager.readFileAtPath(path: path) as! Array<Float>
+            if !content.isEmpty {
+                pa = content[1]
+                pv = content[0]
+            }
         }
         
         let path_a = StoreFileManager.getStoragePath(suffix: "/EmoClock/Points/") + "sober.txt"
@@ -28,6 +35,7 @@ class MusicChose {
         if !content_a.isEmpty {
             pa = content_a.last!
         }
+        assert(content_a.isEmpty == content_v.isEmpty)
         return (pv, pa)
     }
     
@@ -56,9 +64,9 @@ class MusicChose {
         } else {
             a = 3
         }
-        name = music[v][a]!
-        if name == nil {
-            name = music[v-1][a]!
+        name = music[a][v]
+        if name == "" {
+            name = music[a][v-1]
         }
         return name
     }

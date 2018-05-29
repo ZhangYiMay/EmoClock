@@ -38,10 +38,13 @@ class Feedback: UIViewController {
     var ivs_small: [UIImageView] = []
     var ivs_big: [UIImageView] = []
     
+    let platform = UIDevice.current.modelName
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
-        self.navigationController?.isNavigationBarHidden = true
+    
+        //self.navigationController?.isNavigationBarHidden = true
+        self.navigationController?.navigationBar.isHidden = true
         /* get the size of the frame */
         self.frameHeight = self.view.frame.height
         self.frameWidth = self.view.frame.width
@@ -52,164 +55,179 @@ class Feedback: UIViewController {
         } else {
             self.ratioWidth = self.ratioHeight
         }
-        self.view.backgroundColor = self.backColor
+        self.view.backgroundColor = UIColor.gray
+        /* navigation bar */
+        setNavBarStyle()
+        /* remaining view */
+        setBottomView()
+    }
+    
+    func setBottomView() {
+        var botY: CGFloat = 0.0
+        if platform == "iPhone X" || (self.frameWidth.isEqual(to: 375.0) && self.frameHeight.isEqual(to: 812.0)) {
+            botY = 89.5
+        } else {
+            botY = 65 * self.ratioHeight
+        }
+        let bottomView = UIView.init(frame: CGRect.init(x: 0, y: botY, width: self.frameWidth, height: self.frameHeight))
+        bottomView.backgroundColor = self.backColor
         // label: show clock time
         //let label_time = UILabel.init(frame: CGRect.init(x: 134*self.ratioWidth, y: 91*self.ratioHeight, width: 107.5*self.ratioWidth, height: 52*self.ratioHeight))
-        let label_time = UILabel.init(frame: CGRect.init(x: 0, y: 91*self.ratioHeight, width: self.frameWidth, height: 52*self.ratioHeight))
+        let label_time = UILabel.init(frame: CGRect.init(x: 0, y: 26*self.ratioHeight, width: self.frameWidth, height: 52*self.ratioHeight))
         label_time.textAlignment = .center
         label_time.text = "\(self.alarm_hour):" + (self.alarm_minute < 10 ? "0\(self.alarm_minute)" : "\(self.alarm_minute)")
         label_time.textColor = UIColor.white
         label_time.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 50))
-        self.view.addSubview(label_time)
+        bottomView.addSubview(label_time)
         // label: date
         //let label_date = UILabel.init(frame: CGRect.init(x: 136.5*self.ratioWidth, y: 150.5*self.ratioHeight, width: 102*self.ratioWidth, height: 15.5*self.ratioHeight))
-        let label_date = UILabel.init(frame: CGRect.init(x: 0, y: 150.5*self.ratioHeight, width: self.frameWidth, height: 15.5*self.ratioHeight))
+        let label_date = UILabel.init(frame: CGRect.init(x: 0, y: 85.5*self.ratioHeight, width: self.frameWidth, height: 15.5*self.ratioHeight))
         label_date.textAlignment = .center
         label_date.text = ((self.alarm_month < 10 ? "0\(self.alarm_month)" : "\(self.alarm_month)") + "." + (self.alarm_day < 10 ? "0\(self.alarm_day)日" : "\(self.alarm_day)日") + " 星期" + self.weekCh[self.alarm_week])
         label_date.textColor = UIColor.white
         label_date.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 15))
-        self.view.addSubview(label_date)
+        bottomView.addSubview(label_date)
         // label: name
         //let label_name = UILabel.init(frame: CGRect.init(x: 165.5*self.ratioWidth, y: 231.5*self.ratioHeight, width: 45*self.ratioWidth, height: 23*self.ratioHeight))
-        let label_name = UILabel.init(frame: CGRect.init(x: 0, y: 231.5*self.ratioHeight, width: self.frameWidth, height: 23*self.ratioHeight))
+        let label_name = UILabel.init(frame: CGRect.init(x: 0, y: 126*self.ratioHeight, width: self.frameWidth, height: 23*self.ratioHeight))
         label_name.textAlignment = .center
         label_name.text = "闹钟"
         label_name.textColor = UIColor.white
         label_name.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 22))
-        self.view.addSubview(label_name)
+        bottomView.addSubview(label_name)
         // label: english
-        let label_eng = UILabel.init(frame: CGRect.init(x: 80*self.ratioWidth, y: 264.5*self.ratioHeight, width: 216.5*self.ratioWidth, height: 15.5*self.ratioHeight))
+        let label_eng = UILabel.init(frame: CGRect.init(x: 80*self.ratioWidth, y: 159*self.ratioHeight, width: 216.5*self.ratioWidth, height: 15.5*self.ratioHeight))
         label_eng.text = self.alarm_music
         label_eng.textColor = UIColor.white
         label_eng.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 15))
-        self.view.addSubview(label_eng)
+        bottomView.addSubview(label_eng)
         // slider area
         // label1
-        let label_feel = UILabel.init(frame: CGRect.init(x: 14.5*self.ratioWidth, y: 323*self.ratioHeight, width: 102*self.ratioWidth, height: 21*self.ratioHeight))
+        let label_feel = UILabel.init(frame: CGRect.init(x: 14.5*self.ratioWidth, y: 217.5*self.ratioHeight, width: 102*self.ratioWidth, height: 21*self.ratioHeight))
         label_feel.text = "感觉如何?"
         label_feel.textColor = UIColor.white
         label_feel.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 20))
-        self.view.addSubview(label_feel)
+        bottomView.addSubview(label_feel)
         // label1
-        let label1 = UILabel.init(frame: CGRect.init(x: 14.5*self.ratioWidth, y: 408*self.ratioHeight, width: 50*self.ratioWidth, height: 12.5*self.ratioHeight))
+        let label1 = UILabel.init(frame: CGRect.init(x: 14.5*self.ratioWidth, y: 302.5*self.ratioHeight, width: 100*self.ratioWidth, height: 12.5*self.ratioHeight))
         label1.text = "愉悦程度"
         label1.textColor = UIColor.white
         label1.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 12))
-        self.view.addSubview(label1)
+        bottomView.addSubview(label1)
         // slider1
-        let slider1 = UISlider.init(frame: CGRect.init(x: 77*self.ratioWidth, y: 413.5*self.ratioHeight, width: 280*self.ratioWidth, height: 10))
+        let slider1 = UISlider.init(frame: CGRect.init(x: 77*self.ratioWidth, y: 294.5*self.ratioHeight, width: 280*self.ratioWidth, height: 28*self.ratioHeight))
         slider1.minimumValue = 1
         slider1.maximumValue = 9
         slider1.value = 1
         slider1.isContinuous = true
         slider1.minimumTrackTintColor = UIColor.init(red: 50/255, green: 136/255, blue: 1, alpha: 1)
         slider1.maximumTrackTintColor = UIColor.init(red: 38/255, green: 53/255, blue: 69/255, alpha: 1)
-        self.view.addSubview(slider1)
+        bottomView.addSubview(slider1)
         slider1.addTarget(self, action: #selector(slider1_event), for: .valueChanged)
         // label2
-        let label2 = UILabel.init(frame: CGRect.init(x: 14.5*self.ratioWidth, y: 493*self.ratioHeight, width: 50*self.ratioWidth, height: 12.5*self.ratioHeight))
+        let label2 = UILabel.init(frame: CGRect.init(x: 14.5*self.ratioWidth, y: 428*self.ratioHeight, width: 100*self.ratioWidth, height: 12.5*self.ratioHeight))
         label2.text = "清醒程度"
         label2.textColor = UIColor.white
         label2.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 12))
-        self.view.addSubview(label2)
+        bottomView.addSubview(label2)
         // slider2
-        let slider2 = UISlider.init(frame: CGRect.init(x: 77*self.ratioWidth, y: 498.5*self.ratioHeight, width: 280*self.ratioWidth, height: 10))
+        let slider2 = UISlider.init(frame: CGRect.init(x: 77*self.ratioWidth, y: 420*self.ratioHeight, width: 280*self.ratioWidth, height: 28*self.ratioHeight))
         slider2.minimumValue = 1
         slider2.maximumValue = 9
         slider2.value = 1
         slider2.isContinuous = true
         slider2.minimumTrackTintColor = UIColor.init(red: 50/255, green: 136/255, blue: 1, alpha: 1)
         slider2.maximumTrackTintColor = UIColor.init(red: 38/255, green: 53/255, blue: 69/255, alpha: 1)
-        self.view.addSubview(slider2)
+        bottomView.addSubview(slider2)
         slider2.addTarget(self, action: #selector(slider2_event), for: .valueChanged)
         /* faces - happy */
-        let face_h1_big = UIImageView.init(frame: CGRect.init(x: 72 * self.ratioWidth, y: 354 * self.ratioWidth, width: 34 * self.ratioWidth, height: 34 * self.ratioWidth))
+        let face_h1_big = UIImageView.init(frame: CGRect.init(x: 72 * self.ratioWidth, y: 248.5 * self.ratioWidth, width: 34 * self.ratioWidth, height: 34 * self.ratioWidth))
         face_h1_big.image = UIImage.init(named: "face_happy1_big.png")
-        self.view.addSubview(face_h1_big)
+        bottomView.addSubview(face_h1_big)
         self.ivh_big.append(face_h1_big)
-        let face_h1_small = UIImageView.init(frame: CGRect.init(x: 81 * self.ratioWidth, y: 370.5 * self.ratioWidth, width: 17.5 * self.ratioWidth, height: 17.5 * self.ratioWidth))
+        let face_h1_small = UIImageView.init(frame: CGRect.init(x: 81 * self.ratioWidth, y: 265 * self.ratioWidth, width: 17.5 * self.ratioWidth, height: 17.5 * self.ratioWidth))
         face_h1_small.image = UIImage.init(named: "face_happy1_small.png")
         face_h1_small.isHidden = true
         self.ivh_small.append(face_h1_small)
-        self.view.addSubview(face_h1_small)
+        bottomView.addSubview(face_h1_small)
         
-        let face_h2_small = UIImageView.init(frame: CGRect.init(x: 161.5 * self.ratioWidth, y: 370.5 * self.ratioWidth, width: 17.5 * self.ratioWidth, height: 17.5 * self.ratioWidth))
+        let face_h2_small = UIImageView.init(frame: CGRect.init(x: 161.5 * self.ratioWidth, y: 265 * self.ratioWidth, width: 17.5 * self.ratioWidth, height: 17.5 * self.ratioWidth))
         face_h2_small.image = UIImage.init(named: "face_happy2_small.png")
-        self.view.addSubview(face_h2_small)
+        bottomView.addSubview(face_h2_small)
         self.ivh_small.append(face_h2_small)
-        let face_h2_big = UIImageView.init(frame: CGRect.init(x: 153 * self.ratioWidth, y: 354 * self.ratioWidth, width: 34 * self.ratioWidth, height: 34 * self.ratioWidth))
+        let face_h2_big = UIImageView.init(frame: CGRect.init(x: 153 * self.ratioWidth, y: 248.5 * self.ratioWidth, width: 34 * self.ratioWidth, height: 34 * self.ratioWidth))
         face_h2_big.image = UIImage.init(named: "face_happy2_big.png")
         face_h2_big.isHidden = true
         self.ivh_big.append(face_h2_big)
-        self.view.addSubview(face_h2_big)
+       bottomView.addSubview(face_h2_big)
         
-        let face_h3_big = UIImageView.init(frame: CGRect.init(x: 233 * self.ratioWidth, y: 354 * self.ratioWidth, width: 34 * self.ratioWidth, height: 34 * self.ratioWidth))
+        let face_h3_big = UIImageView.init(frame: CGRect.init(x: 233 * self.ratioWidth, y: 248.5 * self.ratioWidth, width: 34 * self.ratioWidth, height: 34 * self.ratioWidth))
         face_h3_big.image = UIImage.init(named: "face_happy3_big.png")
         face_h3_big.isHidden = true
         self.ivh_big.append(face_h3_big)
-        self.view.addSubview(face_h3_big)
-        let face_h3_small = UIImageView.init(frame: CGRect.init(x: 242 * self.ratioWidth, y: 370.5 * self.ratioWidth, width: 17.5 * self.ratioWidth, height: 17.5 * self.ratioWidth))
+        bottomView.addSubview(face_h3_big)
+        let face_h3_small = UIImageView.init(frame: CGRect.init(x: 242 * self.ratioWidth, y: 265 * self.ratioWidth, width: 17.5 * self.ratioWidth, height: 17.5 * self.ratioWidth))
         face_h3_small.image = UIImage.init(named: "face_happy3_small.png")
-        self.view.addSubview(face_h3_small)
+        bottomView.addSubview(face_h3_small)
         self.ivh_small.append(face_h3_small)
         
-        let face_h4_big = UIImageView.init(frame: CGRect.init(x: 314 * self.ratioWidth, y: 354 * self.ratioWidth, width: 34 * self.ratioWidth, height: 34 * self.ratioWidth))
+        let face_h4_big = UIImageView.init(frame: CGRect.init(x: 314 * self.ratioWidth, y: 248.5 * self.ratioWidth, width: 34 * self.ratioWidth, height: 34 * self.ratioWidth))
         face_h4_big.image = UIImage.init(named: "face_happy4_big.png")
         face_h4_big.isHidden = true
         self.ivh_big.append(face_h4_big)
-        self.view.addSubview(face_h4_big)
-        let face_h4_small = UIImageView.init(frame: CGRect.init(x: 322.5 * self.ratioWidth, y: 370.5 * self.ratioWidth, width: 17.5 * self.ratioWidth, height: 17.5 * self.ratioWidth))
+        bottomView.addSubview(face_h4_big)
+        let face_h4_small = UIImageView.init(frame: CGRect.init(x: 322.5 * self.ratioWidth, y: 265 * self.ratioWidth, width: 17.5 * self.ratioWidth, height: 17.5 * self.ratioWidth))
         face_h4_small.image = UIImage.init(named: "face_happy4_small.png")
-        self.view.addSubview(face_h4_small)
+        bottomView.addSubview(face_h4_small)
         self.ivh_small.append(face_h4_small)
         /* faces - sober */
-        let face_s1_big = UIImageView.init(frame: CGRect.init(x: 72 * self.ratioWidth, y: 439 * self.ratioWidth, width: 34 * self.ratioWidth, height: 34 * self.ratioWidth))
+        let face_s1_big = UIImageView.init(frame: CGRect.init(x: 72 * self.ratioWidth, y: 374 * self.ratioWidth, width: 34 * self.ratioWidth, height: 34 * self.ratioWidth))
         face_s1_big.image = UIImage.init(named: "face_sober1_big.png")
-        self.view.addSubview(face_s1_big)
+        bottomView.addSubview(face_s1_big)
         face_s1_big.isHidden = false
         self.ivs_big.append(face_s1_big)
-        let face_s1_small = UIImageView.init(frame: CGRect.init(x: 81 * self.ratioWidth, y: 455.5 * self.ratioWidth, width: 17.5 * self.ratioWidth, height: 17.5 * self.ratioWidth))
+        let face_s1_small = UIImageView.init(frame: CGRect.init(x: 81 * self.ratioWidth, y: 390.5 * self.ratioWidth, width: 17.5 * self.ratioWidth, height: 17.5 * self.ratioWidth))
         face_s1_small.image = UIImage.init(named: "face_sober1_small.png")
-        self.view.addSubview(face_s1_big)
+        bottomView.addSubview(face_s1_big)
         face_s1_small.isHidden = true
-        self.view.addSubview(face_s1_small)
+        bottomView.addSubview(face_s1_small)
         self.ivs_small.append(face_s1_small)
         
-        let face_s2_big = UIImageView.init(frame: CGRect.init(x: 153 * self.ratioWidth, y: 439 * self.ratioWidth, width: 34 * self.ratioWidth, height: 34 * self.ratioWidth))
+        let face_s2_big = UIImageView.init(frame: CGRect.init(x: 153 * self.ratioWidth, y: 374 * self.ratioWidth, width: 34 * self.ratioWidth, height: 34 * self.ratioWidth))
         face_s2_big.image = UIImage.init(named: "face_sober2_big.png")
         face_s2_big.isHidden = true
         self.ivs_big.append(face_s2_big)
-        self.view.addSubview(face_s2_big)
-        let face_s2_small = UIImageView.init(frame: CGRect.init(x: 161.5 * self.ratioWidth, y: 455.5 * self.ratioWidth, width: 17.5 * self.ratioWidth, height: 17.5 * self.ratioWidth))
+        bottomView.addSubview(face_s2_big)
+        let face_s2_small = UIImageView.init(frame: CGRect.init(x: 161.5 * self.ratioWidth, y: 390.5 * self.ratioWidth, width: 17.5 * self.ratioWidth, height: 17.5 * self.ratioWidth))
         face_s2_small.image = UIImage.init(named: "face_sober2_small.png")
         face_s2_small.isHidden = false
         self.ivs_small.append(face_s2_small)
-        self.view.addSubview(face_s2_small)
+        bottomView.addSubview(face_s2_small)
         
-        let face_s3_big = UIImageView.init(frame: CGRect.init(x: 233 * self.ratioWidth, y: 439 * self.ratioWidth, width: 34 * self.ratioWidth, height: 34 * self.ratioWidth))
+        let face_s3_big = UIImageView.init(frame: CGRect.init(x: 233 * self.ratioWidth, y: 374 * self.ratioWidth, width: 34 * self.ratioWidth, height: 34 * self.ratioWidth))
         face_s3_big.image = UIImage.init(named: "face_sober3_big.png")
         face_s3_big.isHidden = true
         self.ivs_big.append(face_s3_big)
-        self.view.addSubview(face_s3_big)
-        let face_s3_small = UIImageView.init(frame: CGRect.init(x: 242 * self.ratioWidth, y: 455.5 * self.ratioWidth, width: 17.5 * self.ratioWidth, height: 17.5 * self.ratioWidth))
+        bottomView.addSubview(face_s3_big)
+        let face_s3_small = UIImageView.init(frame: CGRect.init(x: 242 * self.ratioWidth, y: 390.5 * self.ratioWidth, width: 17.5 * self.ratioWidth, height: 17.5 * self.ratioWidth))
         face_s3_small.image = UIImage.init(named: "face_sober3_small.png")
         face_s3_small.isHidden = false
         self.ivs_small.append(face_s3_small)
-        self.view.addSubview(face_s3_small)
+        bottomView.addSubview(face_s3_small)
         
-        let face_s4_big = UIImageView.init(frame: CGRect.init(x: 314 * self.ratioWidth, y: 439 * self.ratioWidth, width: 34 * self.ratioWidth, height: 34 * self.ratioWidth))
+        let face_s4_big = UIImageView.init(frame: CGRect.init(x: 314 * self.ratioWidth, y: 374 * self.ratioWidth, width: 34 * self.ratioWidth, height: 34 * self.ratioWidth))
         face_s4_big.image = UIImage.init(named: "face_sober4_big.png")
         face_s4_big.isHidden = true
         self.ivs_big.append(face_s4_big)
-        self.view.addSubview(face_s4_big)
-        let face_s4_small = UIImageView.init(frame: CGRect.init(x: 322.5 * self.ratioWidth, y: 455.5 * self.ratioWidth, width: 17.5 * self.ratioWidth, height: 17.5 * self.ratioWidth))
+        bottomView.addSubview(face_s4_big)
+        let face_s4_small = UIImageView.init(frame: CGRect.init(x: 322.5 * self.ratioWidth, y: 390.5 * self.ratioWidth, width: 17.5 * self.ratioWidth, height: 17.5 * self.ratioWidth))
         face_s4_small.image = UIImage.init(named: "face_sober4_small.png")
         face_s4_small.isHidden = false
         self.ivs_small.append(face_s4_small)
-        self.view.addSubview(face_s4_small)
+        bottomView.addSubview(face_s4_small)
         
         // button save
-        let btnRect = CGRect.init(x: 46.5 * self.ratioWidth, y: 555.5*self.ratioHeight, width: 280 * self.ratioWidth, height: 57 * self.ratioHeight)
+        let btnRect = CGRect.init(x: 46.5 * self.ratioWidth, y: 490.5*self.ratioHeight, width: 280 * self.ratioWidth, height: 57 * self.ratioHeight)
         let buttonSave = UIButton.init(frame: btnRect)
         buttonSave.layer.masksToBounds = true
         buttonSave.layer.cornerRadius = 30 * self.ratioWidth
@@ -221,8 +239,43 @@ class Feedback: UIViewController {
         label.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 20))
         label.textColor = UIColor.white
         buttonSave.addSubview(label)
-        self.view.addSubview(buttonSave)
+        bottomView.addSubview(buttonSave)
         buttonSave.addTarget(self, action: #selector(tapSave), for: UIControlEvents.touchUpInside)
+        self.view.addSubview(bottomView)
+    }
+    
+    func setNavBarStyle() {
+        if platform == "iPhone X" || (frameWidth.isEqual(to: 375.0) && frameHeight.isEqual(to: 812.0))
+        {
+            let barView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.frameWidth, height: 89))
+            barView.backgroundColor = self.backColor
+            
+            //let label = UILabel.init(frame: CGRect.init(x: 161.5*self.ratioWidth, y: 34.5*self.ratioHeight, width: 52*self.ratioWidth, height: 15.5*self.ratioHeight))
+            let label = UILabel.init(frame: CGRect.init(x: 0, y: 53, width: self.frameWidth, height: 15.5*self.ratioHeight))
+            label.textColor = UIColor.white
+            label.textAlignment = NSTextAlignment.center
+            label.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 15))
+            label.text = "EmoClock"
+            barView.addSubview(label)
+            
+            self.view.addSubview(barView)
+        }
+        else
+        {
+            let barView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.frameWidth, height: 64.5*self.ratioHeight))
+            barView.backgroundColor = self.backColor
+            
+            //let label = UILabel.init(frame: CGRect.init(x: 161.5*self.ratioWidth, y: 34.5*self.ratioHeight, width: 52*self.ratioWidth, height: 15.5*self.ratioHeight))
+            let label = UILabel.init(frame: CGRect.init(x: 0, y: 34.5*self.ratioHeight, width: self.frameWidth, height: 15.5*self.ratioHeight))
+            label.textColor = UIColor.white
+            label.textAlignment = NSTextAlignment.center
+            label.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 15))
+            label.text = "EmoClock"
+            barView.addSubview(label)
+            
+            self.view.addSubview(barView)
+        }
+        
     }
     
     @objc func slider1_event(sender: UISlider) {
@@ -308,6 +361,12 @@ class Feedback: UIViewController {
         let vc = sb.instantiateViewController(withIdentifier: "MainPage")
         self.navigationController?.pushViewController(vc, animated: true)
     }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }

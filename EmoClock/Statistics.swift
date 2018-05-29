@@ -25,6 +25,8 @@ class Statistics: UIViewController {
     var averageSleepingTime: Float = 0.0
     var averageHappyPoint: Float = 0.0
     var totalDays: Int = 0
+    /* platform */
+    let platform = UIDevice.current.modelName
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -57,7 +59,12 @@ class Statistics: UIViewController {
             let info = content[0]
             let totalTime = info["total"] as! Double
             let count = info["count"] as! Double
-            self.averageSleepingTime = Float(totalTime / count)
+            if count != 0 {
+                self.averageSleepingTime = Float(totalTime / count)
+            } else {
+                self.averageSleepingTime = 0.0
+            }
+            
         }
     }
     
@@ -89,29 +96,60 @@ class Statistics: UIViewController {
     }
     
     func setNavBarStyle() {
-        let barView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.frameWidth, height: 64.5*self.ratioHeight))
-        barView.backgroundColor = self.backColor
+        if platform == "iPhone X" || (frameWidth == 375.0 && frameHeight == 812.0)
+        {
+            let barView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.frameWidth, height: 89))
+            barView.backgroundColor = self.backColor
+            
+            //let label = UILabel.init(frame: CGRect.init(x: 172*self.ratioWidth, y: 34.5*self.ratioHeight, width: 31*self.ratioWidth, height: 15.5*self.ratioHeight))
+            let label = UILabel.init(frame: CGRect.init(x: 0, y: 53, width: self.frameWidth, height: 15.5*self.ratioHeight))
+            label.textAlignment = .center
+            label.textColor = UIColor.white
+            label.textAlignment = NSTextAlignment.center
+            label.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 15))
+            label.text = "统计"
+            barView.addSubview(label)
+            
+            let itemImageLeft = UIImage.init(named: "back")
+            let btnLeft = UIButton.init(frame: CGRect.init(x: 15, y: 55, width: 47 * self.ratioWidth, height: 21 * self.ratioHeight))
+            btnLeft.setImage(itemImageLeft, for: UIControlState.normal)
+            barView.addSubview(btnLeft)
+            btnLeft.addTarget(self, action: #selector(tapBack), for: .touchUpInside)
+            
+            self.view.addSubview(barView)
+        } else {
+            let barView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: self.frameWidth, height: 64.5*self.ratioHeight))
+            barView.backgroundColor = self.backColor
+            
+            //let label = UILabel.init(frame: CGRect.init(x: 172*self.ratioWidth, y: 34.5*self.ratioHeight, width: 31*self.ratioWidth, height: 15.5*self.ratioHeight))
+            let label = UILabel.init(frame: CGRect.init(x: 0, y: 34.5*self.ratioHeight, width: self.frameWidth, height: 15.5*self.ratioHeight))
+            label.textAlignment = .center
+            label.textColor = UIColor.white
+            label.textAlignment = NSTextAlignment.center
+            label.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 15))
+            label.text = "统计"
+            barView.addSubview(label)
+            
+            let itemImageLeft = UIImage.init(named: "back")
+            let btnLeft = UIButton.init(frame: CGRect.init(x: 18 * self.ratioWidth, y: 32 * self.ratioHeight, width: 47 * self.ratioWidth, height: 21 * self.ratioHeight))
+            btnLeft.setImage(itemImageLeft, for: UIControlState.normal)
+            barView.addSubview(btnLeft)
+            btnLeft.addTarget(self, action: #selector(tapBack), for: .touchUpInside)
+            
+            self.view.addSubview(barView)
+        }
         
-        //let label = UILabel.init(frame: CGRect.init(x: 172*self.ratioWidth, y: 34.5*self.ratioHeight, width: 31*self.ratioWidth, height: 15.5*self.ratioHeight))
-        let label = UILabel.init(frame: CGRect.init(x: 0, y: 34.5*self.ratioHeight, width: self.frameWidth, height: 15.5*self.ratioHeight))
-        label.textAlignment = .center
-        label.textColor = UIColor.white
-        label.textAlignment = NSTextAlignment.center
-        label.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 15))
-        label.text = "统计"
-        barView.addSubview(label)
-        
-        let itemImageLeft = UIImage.init(named: "back")
-        let btnLeft = UIButton.init(frame: CGRect.init(x: 18 * self.ratioWidth, y: 32 * self.ratioHeight, width: 12.5 * self.ratioWidth, height: 21 * self.ratioHeight))
-        btnLeft.setImage(itemImageLeft, for: UIControlState.normal)
-        barView.addSubview(btnLeft)
-        btnLeft.addTarget(self, action: #selector(tapBack), for: .touchUpInside)
-        
-        self.view.addSubview(barView)
     }
     
     func setStatiticView() {
-        let remainView = UIView.init(frame: CGRect.init(x: 0, y: 65.0 * self.ratioHeight, width: self.frameWidth, height: self.frameHeight - 65.0 * self.ratioHeight))
+        var remainView = UIView.init()
+        if platform == "iPhone X" || (frameWidth == 375.0 && frameHeight == 812.0)
+        {
+            remainView = UIView.init(frame: CGRect.init(x: 0, y: 89.5, width: self.frameWidth, height: self.frameHeight - 65.0 * self.ratioHeight))
+        } else {
+            remainView = UIView.init(frame: CGRect.init(x: 0, y: 65.0 * self.ratioHeight, width: self.frameWidth, height: self.frameHeight - 65.0 * self.ratioHeight))
+        }
+        
         remainView.backgroundColor = self.backColor
         // label: total using days - data
         //let label_num = UILabel.init(frame: CGRect.init(x: 146 * self.ratioWidth, y: 27 * self.ratioHeight, width: 83 * self.ratioWidth, height: 52 * self.ratioHeight))

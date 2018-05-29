@@ -50,7 +50,7 @@ extension Alarm {
         // 创建通知内容
         let content = UNMutableNotificationContent.init()
         content.title = "EmoClock"
-        content.body = "请右滑关闭闹钟"
+        content.body = "要进入EmoClock才能关闭闹钟哟～"
         content.sound = UNNotificationSound.init(named: musicName)
         content.categoryIdentifier = "myNotificationCategory"
         // 创建触发机制
@@ -67,7 +67,7 @@ extension Alarm {
         // 将request添加到发送中心
         UNUserNotificationCenter.current().add(request, withCompletionHandler:{(error) in
             if error == nil {
-                print("no error in adding notifications")
+                //print("no error in adding notifications")
             }else {
                 print(error.debugDescription)
             }
@@ -78,8 +78,8 @@ extension Alarm {
         for var i in 1...repeatTime {
             let identifier_add = "alarm" + String(i)
             let content_add = UNMutableNotificationContent.init()
-            content_add.title = "clock"
-            content_add.body = "请右滑关闭闹钟"
+            content_add.title = "EmoClock"
+            content_add.body = "要进入EmoClock才能关闭闹钟哟～"
             content_add.sound = UNNotificationSound.init(named: musicName)
             content_add.categoryIdentifier = "myNotificationCategory"
             
@@ -89,7 +89,7 @@ extension Alarm {
             let request_add = UNNotificationRequest.init(identifier: identifier_add, content: content_add, trigger: trigger_add)
             UNUserNotificationCenter.current().add(request_add, withCompletionHandler:{(error) in
                 if error == nil {
-                    print("no error in adding notifications")
+                    //print("no error in adding notifications")
                 }else {
                     print(error.debugDescription)
                 }
