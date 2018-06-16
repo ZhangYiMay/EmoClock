@@ -145,7 +145,7 @@ class NormalProbles: UIViewController {
         bottomView.addSubview(label4)
         //label 5
         let label5 = UILabel.init(frame: CGRect.init(x: 18 * self.ratioWidth, y: 461.5 * self.ratioHeight, width: 339.5 * self.ratioWidth, height: 63.5 * self.ratioHeight))
-        label5.text = "3.每天的反馈，只为更懂你。根据您每天关闭闹钟后的反馈，我们回调整第二天的闹钟音乐，努力找到最适合您的起床铃声 ：）"
+        label5.text = "3.每天的反馈，只为更懂你。根据您每天关闭闹钟后的反馈，我们会调整第二天的闹钟音乐，努力找到最适合您的起床铃声 ：）"
         label5.numberOfLines = 3
         label5.font = UIFont.systemFont(ofSize: FontSizeAdaptor.adaptFontSize(fontSize: 15))
         label5.textColor = UIColor.white

@@ -22,7 +22,7 @@ class MusicChose {
         if !content_v.isEmpty {
             pv = content_v.last!
         } else { //查看selftest的结果
-            let path = StoreFileManager.getStoragePath(suffix: "/EmoClock/Test/musicKind.txt")
+            let path = StoreFileManager.getStoragePath(suffix: "/EmoClock/Test/") + "musicKind.txt"
             let content = StoreFileManager.readFileAtPath(path: path) as! Array<Float>
             if !content.isEmpty {
                 pa = content[1]
