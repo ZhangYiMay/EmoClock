@@ -76,17 +76,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
                     let navigationController = UINavigationController(rootViewController: ring)
                     self.window?.rootViewController=navigationController
                 } else {
-                    let ad = AddClock()
-                    ad.time_range = alarmInfo["alarm_range"] as! String
-                    ad.clock_hour = clockHour
-                    ad.clock_minute = clockMin
-                    ad.clock_month = clockMonth
-                    ad.clock_day = clockDay
-                    ad.weekday = alarmInfo["alarmWeek"] as! Int
-                    ad.remainTime = alarmInfo["time_remain"] as! Double
-                    ad.init_flag = true
-                    ad.today = today
-                    let navigationController = UINavigationController(rootViewController: ad)
+                    let sp = StartPage()
+//                    sp.time_range = alarmInfo["alarm_range"] as! String
+//                    sp.clock_hour = clockHour
+//                    sp.clock_minute = clockMin
+//                    sp.clock_month = clockMonth
+//                    sp.clock_day = clockDay
+//                    sp.weekday = alarmInfo["alarmWeek"] as! Int
+//                    sp.remainTime = alarmInfo["time_remain"] as! Double
+//                    sp.init_flag = true
+//                    sp.today = today
+                    let navigationController = UINavigationController(rootViewController: sp)
                     self.window?.rootViewController=navigationController
                 }
             } else { //没有闹钟

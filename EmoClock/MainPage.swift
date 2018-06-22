@@ -34,7 +34,7 @@ class MainPage: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
     /* platform */
     let platform = UIDevice.current.modelName
     
-    var flag = true
+    var flag = true //如果是打开app就自动跳到这个页面，则flag=true，如果是从主页跳过来，这个flag为false
     
     let center = UNUserNotificationCenter.current()
     
@@ -43,7 +43,12 @@ class MainPage: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         //print("MainPage: viewDidLoad")
         // Do any additional setup after loading the view, typically from a nib.
         self.navigationController?.navigationBar.isHidden = true
-        self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        if flag {
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = false
+        } else {
+            self.navigationController?.interactivePopGestureRecognizer?.isEnabled = true
+        }
+        
 //        let bundlePath = Bundle.main.path(forResource: "shape of you", ofType: "m4a")
 //        print("bundlePath:\(bundlePath)")
         /* get the size of the frame */
@@ -138,18 +143,18 @@ class MainPage: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
             label.text = "EmoClock"
             barView.addSubview(label)
             
-            let itemImageLeft = UIImage.init(named: "statistics")
-            let btnLeft = UIButton.init(frame: CGRect.init(x: 15, y: 55, width: 22, height: 20))
+            let itemImageLeft = UIImage.init(named: "back")
+            let btnLeft = UIButton.init(frame: CGRect.init(x: 15, y: 56, width: 47 * self.ratioWidth, height: 21 * self.ratioHeight))
             //let btnLeft = UIButton.init(frame: CGRect.init(x: 15 * self.ratioWidth, y: 32 * self.ratioHeight, width: 30 * self.ratioWidth, height: 30 * self.ratioHeight)) //test
             btnLeft.setImage(itemImageLeft, for: UIControlState.normal)
             barView.addSubview(btnLeft)
-            btnLeft.addTarget(self, action: #selector(tapStatistics), for: .touchUpInside)
+            btnLeft.addTarget(self, action: #selector(tapback), for: .touchUpInside)
             
-            let itemImageRight = UIImage.init(named: "set")
-            let btnRight = UIButton.init(frame: CGRect.init(x: 333, y: 51, width: 27, height: 27))
-            btnRight.setImage(itemImageRight, for: UIControlState.normal)
-            barView.addSubview(btnRight)
-            btnRight.addTarget(self, action: #selector(tapSetting), for: UIControlEvents.touchUpInside)
+//            let itemImageRight = UIImage.init(named: "set")
+//            let btnRight = UIButton.init(frame: CGRect.init(x: 333, y: 51, width: 27, height: 27))
+//            btnRight.setImage(itemImageRight, for: UIControlState.normal)
+//            barView.addSubview(btnRight)
+//            btnRight.addTarget(self, action: #selector(tapSetting), for: UIControlEvents.touchUpInside)
             self.view.addSubview(barView)
         }
         else
@@ -164,18 +169,18 @@ class MainPage: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
             label.text = "EmoClock"
             barView.addSubview(label)
             
-            let itemImageLeft = UIImage.init(named: "statistics")
-            let btnLeft = UIButton.init(frame: CGRect.init(x: 15 * self.ratioWidth, y: 32 * self.ratioHeight, width: 23.5 * self.ratioWidth, height: 20 * self.ratioHeight))
+            let itemImageLeft = UIImage.init(named: "back")
+            let btnLeft = UIButton.init(frame: CGRect.init(x: 15 * self.ratioWidth, y: 32 * self.ratioHeight, width: 47 * self.ratioWidth, height: 21 * self.ratioHeight))
             //let btnLeft = UIButton.init(frame: CGRect.init(x: 15 * self.ratioWidth, y: 32 * self.ratioHeight, width: 30 * self.ratioWidth, height: 30 * self.ratioHeight)) //test
             btnLeft.setImage(itemImageLeft, for: UIControlState.normal)
             barView.addSubview(btnLeft)
-            btnLeft.addTarget(self, action: #selector(tapStatistics), for: .touchUpInside)
+            btnLeft.addTarget(self, action: #selector(tapback), for: .touchUpInside)
             
-            let itemImageRight = UIImage.init(named: "set")
-            let btnRight = UIButton.init(frame: CGRect.init(x: 335 * self.ratioWidth, y: 28 * self.ratioHeight, width: 28 * self.ratioWidth, height: 28 * self.ratioHeight))
-            btnRight.setImage(itemImageRight, for: UIControlState.normal)
-            barView.addSubview(btnRight)
-            btnRight.addTarget(self, action: #selector(tapSetting), for: UIControlEvents.touchUpInside)
+//            let itemImageRight = UIImage.init(named: "set")
+//            let btnRight = UIButton.init(frame: CGRect.init(x: 335 * self.ratioWidth, y: 28 * self.ratioHeight, width: 28 * self.ratioWidth, height: 28 * self.ratioHeight))
+//            btnRight.setImage(itemImageRight, for: UIControlState.normal)
+//            barView.addSubview(btnRight)
+//            btnRight.addTarget(self, action: #selector(tapSetting), for: UIControlEvents.touchUpInside)
             self.view.addSubview(barView)
         }
     }
@@ -392,10 +397,8 @@ class MainPage: UIViewController, UIPickerViewDelegate, UIPickerViewDataSource, 
         self.navigationController?.pushViewController(vc, animated: true)
     }
     
-    @objc func tapStatistics() {
-        let sb = UIStoryboard.init(name: "Main", bundle: nil)
-        let vc = sb.instantiateViewController(withIdentifier: "Statistics") as UIViewController
-        self.navigationController?.pushViewController(vc, animated: true)
+    @objc func tapback() {
+        self.navigationController?.popViewController(animated: true)
     }
     
     override func viewWillAppear(_ animated: Bool) {

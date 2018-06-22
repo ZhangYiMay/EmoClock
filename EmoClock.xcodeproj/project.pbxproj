@@ -38,6 +38,8 @@
 		235CB23420B053D4008A297F /* SelfTest5.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235CB23320B053D4008A297F /* SelfTest5.swift */; };
 		235CB23620B053FE008A297F /* SelfTest6.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235CB23520B053FE008A297F /* SelfTest6.swift */; };
 		235CB23820B05408008A297F /* SelfTest2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 235CB23720B05408008A297F /* SelfTest2.swift */; };
+		23C1C44920D55AED00D8F5A6 /* StartPage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C1C44820D55AED00D8F5A6 /* StartPage.swift */; };
+		23C1C44B20D560EF00D8F5A6 /* StartPageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23C1C44A20D560EF00D8F5A6 /* StartPageCell.swift */; };
 		23D12B3C209DE408004CE803 /* GuideView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D12B3B209DE408004CE803 /* GuideView.swift */; };
 		23D63941208DD93000385A17 /* FontSizeAdaptor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23D63940208DD93000385A17 /* FontSizeAdaptor.swift */; };
 		23F5D3D320503C2E006707AC /* Alarm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23F5D3D220503C2E006707AC /* Alarm.swift */; };
@@ -112,6 +114,8 @@
 		235CB23320B053D4008A297F /* SelfTest5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfTest5.swift; sourceTree = "<group>"; };
 		235CB23520B053FE008A297F /* SelfTest6.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfTest6.swift; sourceTree = "<group>"; };
 		235CB23720B05408008A297F /* SelfTest2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelfTest2.swift; sourceTree = "<group>"; };
+		23C1C44820D55AED00D8F5A6 /* StartPage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPage.swift; sourceTree = "<group>"; };
+		23C1C44A20D560EF00D8F5A6 /* StartPageCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartPageCell.swift; sourceTree = "<group>"; };
 		23D12B3B209DE408004CE803 /* GuideView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GuideView.swift; sourceTree = "<group>"; };
 		23D63940208DD93000385A17 /* FontSizeAdaptor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontSizeAdaptor.swift; sourceTree = "<group>"; };
 		23F44F572055036E00AE993B /* UserNotifications.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UserNotifications.framework; path = System/Library/Frameworks/UserNotifications.framework; sourceTree = SDKROOT; };
@@ -366,6 +370,8 @@
 				235CB23520B053FE008A297F /* SelfTest6.swift */,
 				235CB23720B05408008A297F /* SelfTest2.swift */,
 				23028AA220B163A600690FCE /* SelfTestOver.swift */,
+				23C1C44820D55AED00D8F5A6 /* StartPage.swift */,
+				23C1C44A20D560EF00D8F5A6 /* StartPageCell.swift */,
 			);
 			path = EmoClock;
 			sourceTree = "<group>";
@@ -546,6 +552,7 @@
 				235CB22E20B04C47008A297F /* SelfTest1.swift in Sources */,
 				235CB22C20B0029F008A297F /* SelfTestAlert.swift in Sources */,
 				235CB23220B052D6008A297F /* SelfTest4.swift in Sources */,
+				23C1C44B20D560EF00D8F5A6 /* StartPageCell.swift in Sources */,
 				23028AA320B163A600690FCE /* SelfTestOver.swift in Sources */,
 				2335A305204CEAB30057BDCB /* AddClock.swift in Sources */,
 				231FABF8209ED06500E5B71F /* MusicChosen.swift in Sources */,
@@ -556,6 +563,7 @@
 				23D12B3C209DE408004CE803 /* GuideView.swift in Sources */,
 				235CB23420B053D4008A297F /* SelfTest5.swift in Sources */,
 				233C534B204C1F8B00D0383C /* Setting.swift in Sources */,
+				23C1C44920D55AED00D8F5A6 /* StartPage.swift in Sources */,
 				235CB23820B05408008A297F /* SelfTest2.swift in Sources */,
 				235CB23620B053FE008A297F /* SelfTest6.swift in Sources */,
 				23D63941208DD93000385A17 /* FontSizeAdaptor.swift in Sources */,
